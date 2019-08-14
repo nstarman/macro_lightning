@@ -1,0 +1,2 @@
+This folder contains important plots
+Most plots are located in the same folder as their parent notebook
