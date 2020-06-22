@@ -2,26 +2,23 @@
 
 # ----------------------------------------------------------------------------
 #
-# TITLE   : main initialization file
-# AUTHOR  : Nathaniel Starkman, Harrison Winch, Jagjit Sidhu
+# AUTHOR  : Nathaniel Starkman, Harrison Winch, Jagjit Sidhu, Glenn Starkman
 # PROJECT : macro_lightning
 #
 # ----------------------------------------------------------------------------
 
-"""initialization file for macro_lightning.
+"""Macro-induced Lightning."""
 
-Routine Listings
-----------------
-module
-
-"""
-
-__author__ = ['Nathaniel Starkman', 'Harrison Winch', 'Jagjit Sidhu']
+__author__ = [
+    "Jagjit Sidhu",
+    "Nathaniel Starkman",
+    "Harrison Winch",
+    "Glenn Starkman",
+]
 __copyright__ = "Copyright 2020, "
-# __credits__ = [""]
-__license__ = "MIT"
+__license__ = "BSD-3"
 # __version__ = "0.0.0"
-# __maintainer__ = ""
+__maintainer__ = "Nathaniel Starkman"
 # __email__ = ""
 # __status__ = "Production"
 
@@ -29,12 +26,16 @@ __license__ = "MIT"
 #     ""
 # ]
 
+
 ##############################################################################
 # IMPORTS
 
-# GENERAL
+# BUILT-IN
 
-# CUSTOM
+
+# THIRD PARTY
+
+from . import data
 
 # PROJECT-SPECIFIC
 
