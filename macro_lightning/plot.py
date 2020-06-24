@@ -33,6 +33,7 @@ import numpy as np
 from .misc import atomic_density, nuclear_density, black_hole, CMB, LMCTop
 from . import data
 
+
 ##############################################################################
 # PARAMETERS
 

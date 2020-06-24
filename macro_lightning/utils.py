@@ -32,14 +32,24 @@ from numpy.linalg import norm
 ##############################################################################
 
 
-def as_quantity(a):
+def as_quantity(arg):
     """Convert argument to a Quantity (or raise NotImplementedError).
 
     from :mod:`~astropy.utils`.
 
+    Returns
+    -------
+    Quantity
+        not copied, quantity subclasses passed through.
+
+    Raises
+    ------
+    NotImplementedError
+        if Quantity() fails
+
     """
     try:
-        return Quantity(a, copy=False, subok=True)
+        return Quantity(arg, copy=False, subok=True)
     except Exception:
         raise NotImplementedError
 
@@ -50,7 +60,26 @@ def as_quantity(a):
 
 
 def qsquare(*args, **kw):
-    """Quantity, Squared."""
+    """Quantity, Squared.
+
+    Parameters
+    ----------
+    *args : Quantity
+        passed, as tuple, to :func:`~as_quantity`
+    **kw
+        arguments into :func:`~numpy.square`
+
+    Returns
+    -------
+    Quantity
+        not copied, quantity subclasses passed through.
+
+    Raises
+    ------
+    NotImplementedError
+        if :func:`~as_quantity` fails
+
+    """
     return np.square(as_quantity(args), **kw)
 
 
@@ -60,7 +89,26 @@ def qsquare(*args, **kw):
 
 
 def qnorm(*args, **kw):
-    """Quantity, Normed."""
+    """Quantity, Normed.
+
+    Parameters
+    ----------
+    *args : Quantity
+        passed, as tuple, to :func:`~as_quantity`
+    **kw
+        arguments into :func:`~numpy.linalg.norm`
+
+    Returns
+    -------
+    Quantity
+        not copied, quantity subclasses passed through.
+
+    Raises
+    ------
+    NotImplementedError
+        if :func:`~as_quantity` fails
+
+    """
     return norm(as_quantity(args), **kw)
 
 
