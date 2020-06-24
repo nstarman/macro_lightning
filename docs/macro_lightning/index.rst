@@ -14,7 +14,6 @@ Subpackages
    :maxdepth: 1
 
    plot
-   scripts
    misc
    utils
 

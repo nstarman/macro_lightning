@@ -40,9 +40,9 @@ PI = np.pi
 ##############################################################################
 
 
-def CMB(M: array_like) -> array_like:
+def CMB(M):
     """CMB."""  # TODO document
-    return 4.5e-7 * M
+    return M * 4.5e-7
 
 
 # /def

@@ -11,3 +11,4 @@ Reference/API
 =============
 
 .. automodapi:: macro_lightning.plot
+	:include-all-objects:
