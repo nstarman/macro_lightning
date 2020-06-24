@@ -1,6 +1,9 @@
 Constraints from Macro-Induced Lightning
 ========================================
 
+This repo contains code to reproduce the results presented in [cite paper here]. We calculate the minimum cross-section required for a macroscopic dark matter nugget to initiate a lightning bolt if it strikes the Earth's atmosphere during a thunderstorm. We also calculate the rate of lightning initiation events, given the mass of the macro. This allows us to put constraints on the mass cros-section parameter space based on the non-detection of characteristically straight lightning strikes.
+
+
 Notebooks
 ---------
 
