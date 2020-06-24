@@ -1,0 +1,24 @@
+# git-ignore file
+# split into default python and project-specific sections
+
+###############################################################################
+# Project-Specific
+
+# scratch folder
+scratch/
+
+# _old
+**/_old
+
+# WIKI
+# it does its own thing
+wiki/*
+
+# # just to make sure
+api
+_build
+
+###############################################################################
+# Default
+
+
