@@ -8,6 +8,7 @@
 # (* ignores contents, not the directory)
 
 scratch/
+/macro_lightning/version.py
 
 # un-comment these for projects
 # notebooks/_sample/
