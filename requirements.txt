@@ -1,0 +1,12 @@
+###### Requirements without Version Specifiers ######`
+matplotlib
+numpy
+pytest
+pytest-astropy
+scipy
+tqdm
+typing_extensions
+utilipy
+
+###### Requirements with Version Specifiers ######`
+astropy >= 4.0
