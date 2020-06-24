@@ -1,0 +1,38 @@
+.. _whatsnew-1.0:
+
+***************************************
+What's New in `macro_lightning` v1.0.X?
+***************************************
+
+Bug fixes (in X releases) are annotated with `@X`
+
+Overview
+========
+
+Using the template from https://github.com/nstarman/project_template, which is a forked from the Astropy-affiliate template.
+
+This release includes:
+
+* :ref:`whatsnew-1.0-framework`
+* :ref:`whatsnew-1.0-config`
+
+.. _whatsnew-1.0-framework:  
+
+Framework
+=========
+
+Many of these do not have a lot of functions implemented, but the framework is in place as utilities are added.
+
+- `config` for configuration
+- `utils`
+
+.. _whatsnew-1.0-config:
+
+Config
+======
+
+Configuration functions: `check_config`, `write_config`, `get_import_verbosity`, `set_import_verbosity`, `get_warnings_verbosity`, `set_warnings_verbosity`, `get_frozen_constants`, `set_frozen_constants`.
+
+All the configurations can be get / set during run-time.
+
+There is a `with` version of all the configurations, for running code with a temporarily changed configurations.

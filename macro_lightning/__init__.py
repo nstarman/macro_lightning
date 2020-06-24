@@ -34,6 +34,11 @@ __all__ = [
 ##############################################################################
 # IMPORTS
 
+# keep this content at the top. (sets the __version__)
+from ._astropy_init import *  # noqa
+from ._astropy_init import __version__  # noqa
+
+
 # PROJECT-SPECIFIC
 
 from . import data, utils, misc

@@ -46,6 +46,7 @@ ymax: float = 1e25
 
 Mmicro = np.logspace(23.0, 28.0)
 
+
 ##############################################################################
 # CODE
 ##############################################################################
@@ -85,7 +86,7 @@ def test_plot_nuclear_density_line():
 def test_plot_black_hole_line():
     """Test :func:`~macro_lightning.utils.as_quantity`."""
     fig, ax = plt.subplots(1, 1)
-    plot.plot_plot_black_hole_line(m_arr, ymin=ymin)
+    plot.plot_black_hole_line(m_arr, ymin=ymin)
 
     return fig
 
@@ -175,7 +176,7 @@ def test_plot_superbursts_constraints():
 def test_plot_humandeath_constraints():
     """Test :func:`~macro_lightning.utils.as_quantity`."""
     fig, ax = plt.subplots(1, 1)
-    plot.plot_humandeath_constraints(m_arr)
+    plot.plot_humandeath_constraints()
 
     return fig
 
@@ -190,7 +191,7 @@ def test_plot_humandeath_constraints():
 def test_plot_dfn_constraints():
     """Test :func:`~macro_lightning.utils.as_quantity`."""
     fig, ax = plt.subplots(1, 1)
-    plot.plot_dfn_constraints(m_arr)
+    plot.plot_dfn_constraints()
 
     return fig
 

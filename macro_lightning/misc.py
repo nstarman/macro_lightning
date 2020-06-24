@@ -18,9 +18,13 @@ __all__ = [
 
 # BUILT-IN
 
+
 # THIRD PARTY
 
 import numpy as np
+
+from utilipy.utils.typing import array_like
+
 
 # PROJECT-SPECIFIC
 
@@ -36,7 +40,7 @@ PI = np.pi
 ##############################################################################
 
 
-def CMB(M):
+def CMB(M: array_like) -> array_like:
     """CMB."""  # TODO document
     return 4.5e-7 * M
 
@@ -47,10 +51,11 @@ def CMB(M):
 # -------------------------------------------------------------------
 
 
-def nuclear_density(M):
+def nuclear_density(M: array_like) -> array_like:
     """Nuclear Density."""  # TODO document
-    f = PI * (3 / (4 * PI * 3.6e14)) ** (2.0 / 3) * np.power(M, 2.0 / 3.0)
-    return f
+    volume = 4.0 / 3.0 * PI * 3.6e14
+    out = PI * np.power(M / volume, 2.0 / 3)
+    return out
 
 
 # /def
@@ -59,10 +64,9 @@ def nuclear_density(M):
 # -------------------------------------------------------------------
 
 
-def black_hole(M):
+def black_hole(M: array_like) -> array_like:
     """Black Holes."""  # TODO document
-    f = PI * (3e5) ** 2 * (M / (2e33)) ** 2
-    return f
+    return PI * (3e5) ** 2 * (M / (2e33)) ** 2.
 
 
 # /def
@@ -71,10 +75,11 @@ def black_hole(M):
 # -------------------------------------------------------------------
 
 
-def atomic_density(M):
+def atomic_density(M: array_like) -> array_like:
     """Atomic Density."""  # TODO document
-    f = PI * (3 / (4 * PI * 1e0)) ** (2.0 / 3) * pow(M, 2.0 / 3)
-    return f
+    volume = 4. / 3. * PI * 1e0
+    out = PI * np.power(M / volume, 2.0 / 3.)
+    return out
 
 
 # /def
@@ -83,10 +88,9 @@ def atomic_density(M):
 # -------------------------------------------------------------------
 
 
-def KeplerTop(M):
+def KeplerTop(M: array_like) -> array_like:
     """Kepler Best Observation."""  # TODO document
-    f = 1e-6 * M
-    return f
+    return 1e-6 * M
 
 
 # /def
@@ -95,10 +99,9 @@ def KeplerTop(M):
 # -------------------------------------------------------------------
 
 
-def LMCTop(M):
+def LMCTop(M: array_like) -> array_like:
     """LMC Best Observation."""  # TODO document
-    f = 1e-4 * M
-    return f
+    return 1e-4 * M
 
 
 # /def
