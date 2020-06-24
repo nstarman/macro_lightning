@@ -570,6 +570,8 @@ def constraint_plot(
     # Code to acquire resource, e.g.:
     fig, ax = pyplot.subplots(figsize=(6, 4))
 
+    ax.grid(True)
+
     ax.set_xlabel(r"$M_{X}$ [g]", fontsize=18)
     ax.set_xlim([m_arr.min(), m_arr.max()])
 
@@ -603,7 +605,6 @@ def constraint_plot(
     finally:
 
         ax.legend(loc="upper left", shadow=True)
-        ax.grid(True)
         pyplot.tight_layout()
 
 
