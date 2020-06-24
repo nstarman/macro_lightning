@@ -21,7 +21,7 @@ __all__ = [
     "plot_lensing_constraints",
     "plot_black_hole_constraints",
     # contextmanager
-    "constraint_plot"
+    "constraint_plot",
 ]
 
 
@@ -58,7 +58,7 @@ from . import data
 # Reference Densities
 
 
-def plot_atomic_density_line(mass: T.Sequence):
+def plot_atomic_density_line(mass: T.Sequence, label=True):
     """Plot Atomic Density Line.
 
     Returns
@@ -73,7 +73,7 @@ def plot_atomic_density_line(mass: T.Sequence):
         markersize=4,
         color="k",
         lw=1,
-        label="Atomic density",
+        label="Atomic density" if label else None,
         zorder=0,
     )
     return line[0]
@@ -85,7 +85,7 @@ def plot_atomic_density_line(mass: T.Sequence):
 # -------------------------------------------------------------------
 
 
-def plot_nuclear_density_line(mass: T.Sequence):
+def plot_nuclear_density_line(mass: T.Sequence, label=True):
     """Plot Nuclear Density Line.
 
     Returns
@@ -100,7 +100,7 @@ def plot_nuclear_density_line(mass: T.Sequence):
         markersize=4,
         color="g",
         lw=2,
-        label="Nuclear density",
+        label="Nuclear density" if label else None,
         zorder=0,
     )
     return line[0]
@@ -112,7 +112,7 @@ def plot_nuclear_density_line(mass: T.Sequence):
 # -------------------------------------------------------------------
 
 
-def plot_black_hole_line(mass: T.Sequence, ymin: float):
+def plot_black_hole_line(mass: T.Sequence, ymin: float, label=True):
     """Plot Black Hole Density Line and Constraint Region.
 
     This assumes that a macro cannot be denser than a black hole.
@@ -128,9 +128,9 @@ def plot_black_hole_line(mass: T.Sequence, ymin: float):
         black_hole(mass),
         "k",
         markersize=4,
-        color="m",
+        color="k",
         lw=3,
-        label="Black holes",
+        label="Black holes" if label else None,
         zorder=3,
     )
     fill = pyplot.fill_between(
@@ -138,7 +138,7 @@ def plot_black_hole_line(mass: T.Sequence, ymin: float):
         ymin,
         black_hole(mass),
         where=None,
-        color=["1"] * len(mass),
+        color=["w"] * len(mass),
         edgecolor="",
         hatch="+",
         alpha=1,
@@ -152,7 +152,9 @@ def plot_black_hole_line(mass: T.Sequence, ymin: float):
 # -------------------------------------------------------------------
 
 
-def plot_reference_densities(mass: T.Sequence, ymin: float = 1e-15):
+def plot_reference_densities(
+    mass: T.Sequence, ymin: float = 1e-15, label=True
+):
     """Plot Reference Density lines / constraints.
 
     - atomic density line
@@ -168,9 +170,9 @@ def plot_reference_densities(mass: T.Sequence, ymin: float = 1e-15):
     bh_fill : `~matplotlib.collections.PolyCollection`
 
     """
-    atom_line = plot_atomic_density_line(mass)
-    nuc_line = plot_nuclear_density_line(mass)
-    bh_line, bh_fill = plot_black_hole_line(mass, ymin)
+    atom_line = plot_atomic_density_line(mass, label=label)
+    nuc_line = plot_nuclear_density_line(mass, label=label)
+    bh_line, bh_fill = plot_black_hole_line(mass, ymin, label=label)
 
     return atom_line, nuc_line, bh_line, bh_fill
 
@@ -181,7 +183,7 @@ def plot_reference_densities(mass: T.Sequence, ymin: float = 1e-15):
 #####################################################################
 
 
-def plot_mica_constraints(points: T.Optional[T.Sequence] = None):
+def plot_mica_constraints(points: T.Optional[T.Sequence] = None, label=False):
     r"""Plot Constraints from Mica.
 
     A longstanding constraint comes from examination of a slab of
@@ -223,8 +225,9 @@ def plot_mica_constraints(points: T.Optional[T.Sequence] = None):
         hatch="|",
         lw=1,
         zorder=0,
+        label="Mica" if label else None,
     )
-    pyplot.gca().add_line(mica_poly)
+    pyplot.gca().add_patch(mica_poly)
 
     return mica_poly
 
@@ -234,7 +237,9 @@ def plot_mica_constraints(points: T.Optional[T.Sequence] = None):
 # -------------------------------------------------------------------
 
 
-def plot_white_dwarf_constraints(points: T.Optional[T.Sequence] = None):
+def plot_white_dwarf_constraints(
+    points: T.Optional[T.Sequence] = None, label=False
+):
     r"""Plot Constraints from White Dwarfs.
 
     Parameters
@@ -261,8 +266,9 @@ def plot_white_dwarf_constraints(points: T.Optional[T.Sequence] = None):
         hatch="",
         lw=1,
         zorder=2,
+        label="White Dwarf" if label else None,
     )
-    pyplot.gca().add_line(wd_poly)
+    pyplot.gca().add_patch(wd_poly)
 
     return wd_poly
 
@@ -273,7 +279,7 @@ def plot_white_dwarf_constraints(points: T.Optional[T.Sequence] = None):
 # -------------------------------------------------------------------
 
 
-def plot_cmb_constraints(m_arr: T.Sequence, ymax: float):
+def plot_cmb_constraints(m_arr: T.Sequence, ymax: float, label=False):
     r"""Plot Constraints from the CMB.
 
     Parameters
@@ -296,6 +302,7 @@ def plot_cmb_constraints(m_arr: T.Sequence, ymax: float):
         hatch="",
         alpha=0.7,
         zorder=1,
+        label="CMB" if label else None,
     )
 
     return cmb_fill
@@ -309,6 +316,7 @@ def plot_cmb_constraints(m_arr: T.Sequence, ymax: float):
 def plot_superbursts_constraints(
     points1: T.Optional[T.Sequence] = None,
     points2: T.Optional[T.Sequence] = None,
+    label=False,
 ):
     r"""Plot Constraints from Superbursts.
 
@@ -340,8 +348,9 @@ def plot_superbursts_constraints(
         hatch="",
         lw=1,
         zorder=5,
+        label="superbursts" if label else None,
     )
-    pyplot.gca().add_line(superbursts1_poly)
+    pyplot.gca().add_patch(superbursts1_poly)
 
     if points2 is None:
         points2 = data.load_superbursts1_polygon()
@@ -357,7 +366,7 @@ def plot_superbursts_constraints(
         lw=1,
         zorder=5,
     )
-    pyplot.gca().add_line(superbursts2_poly)
+    pyplot.gca().add_patch(superbursts2_poly)
 
     return superbursts1_poly, superbursts2_poly
 
@@ -372,6 +381,7 @@ def plot_humandeath_constraints(
     human_mass: T.Optional[T.Sequence] = None,
     human_xsec: T.Optional[T.Sequence] = None,
     human_upper: T.Optional[T.Sequence] = None,
+    label=False,
 ):
     r"""Plot Constraints from dark matter caused human deaths.
 
@@ -409,6 +419,7 @@ def plot_humandeath_constraints(
         hatch="",
         alpha=1.0,
         zorder=10,
+        label="human death" if label else None,
     )
 
     # leghumans = pyplot.Rectangle(
@@ -428,6 +439,7 @@ def plot_dfn_constraints(
     DFN_mass: T.Optional[T.Sequence] = None,
     DFN_xsec: T.Optional[T.Sequence] = None,
     DFN_upper: T.Optional[T.Sequence] = None,
+    label=False,
 ):
     r"""Plot Constraints from Desert Fireball Network.
 
@@ -465,6 +477,7 @@ def plot_dfn_constraints(
         hatch="",
         alpha=1.0,
         zorder=6,
+        label="Desert Fireball Network" if label else None,
     )
 
     return dfn_fill
@@ -476,7 +489,7 @@ def plot_dfn_constraints(
 # -------------------------------------------------------------------
 
 
-def plot_lensing_constraints(Mmicro: T.Optional[T.Sequence] = None,):
+def plot_lensing_constraints(Mmicro: T.Optional[T.Sequence] = None, label=False):
     r"""Plot Constraints from microlensing of the LMC.
 
     Parameters
@@ -503,6 +516,7 @@ def plot_lensing_constraints(Mmicro: T.Optional[T.Sequence] = None,):
         hatch="/",
         alpha=1,
         zorder=2,
+        label="microlensing" if label else None,
     )
 
     return micro_fill
@@ -513,7 +527,7 @@ def plot_lensing_constraints(Mmicro: T.Optional[T.Sequence] = None,):
 # -------------------------------------------------------------------
 
 
-def plot_black_hole_constraints(m_arr: T.Sequence, ymin: float):
+def plot_black_hole_constraints(m_arr: T.Sequence, ymin: float, label=False):
     r"""Plot Constraints from Black Holes.
 
     Parameters
@@ -531,11 +545,12 @@ def plot_black_hole_constraints(m_arr: T.Sequence, ymin: float):
         ymin,
         black_hole(m_arr),
         where=None,
-        color="1",
+        color="w",
         edgecolor="",
         hatch="+",
         alpha=1,
         zorder=2,
+        label="black holes" if label else None,
     )
 
     return bh_fill
@@ -561,6 +576,7 @@ def constraint_plot(
     dfn_constr: bool = False,
     lensing_constr: bool = False,
     bh_constr: bool = False,
+    constr_labels=False
 ):
     """Make standard constraint plot, with custom constraints in context.
 
@@ -580,9 +596,7 @@ def constraint_plot(
         ...     pass
 
     """
-    # Code to acquire resource, e.g.:
     fig, ax = pyplot.subplots(figsize=(6, 4))
-
     ax.grid(True)
 
     ax.set_xlabel(r"$M_{X}$ [g]", fontsize=18)
@@ -596,21 +610,21 @@ def constraint_plot(
     # previous constraints
 
     if mica_constr:
-        plot_mica_constraints()
+        plot_mica_constraints(label=constr_labels)
     if WD_constr:
-        plot_white_dwarf_constraints()
+        plot_white_dwarf_constraints(label=constr_labels)
     if CMB_constr:
-        plot_cmb_constraints(m_arr, ymax=ymax)
+        plot_cmb_constraints(m_arr, ymax=ymax, label=constr_labels)
     if superbursts_constr:
-        plot_superbursts_constraints()
+        plot_superbursts_constraints(label=constr_labels)
     if humandeath_constr:
-        plot_humandeath_constraints()
+        plot_humandeath_constraints(label=constr_labels)
     if dfn_constr:
-        plot_dfn_constraints()
+        plot_dfn_constraints(label=constr_labels)
     if lensing_constr:
-        plot_lensing_constraints(Mmicro=None)
+        plot_lensing_constraints(Mmicro=None, label=constr_labels)
     if bh_constr:
-        plot_black_hole_constraints(m_arr, ymin=ymin)
+        plot_black_hole_constraints(m_arr, ymin=ymin, label=constr_labels)
 
     try:
         yield ax, m_arr, ymin, ymax
