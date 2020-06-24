@@ -109,7 +109,7 @@ def test_qnorm():
     """Test :func:`~macro_lightning.utils.qnorm`.
 
     Most tests are covered by `test_as_quantity`
-    and numpy's internal testing for :func:`~numpy.square`
+    and numpy's internal testing for :func:`~numpy.linalg.norm`
 
     """
     # norm a scalar
