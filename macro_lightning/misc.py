@@ -6,7 +6,7 @@
 __all__ = [
     "CMB",
     "nuclear_density",
-    "BH",
+    "black_hole",
     "atomic_density",
     "KeplerTop",
     "LMCTop",
@@ -66,7 +66,7 @@ def nuclear_density(M: array_like) -> array_like:
 
 def black_hole(M: array_like) -> array_like:
     """Black Holes."""  # TODO document
-    return PI * (3e5) ** 2 * (M / (2e33)) ** 2.
+    return PI * (3e5) ** 2 * (M / (2e33)) ** 2.0
 
 
 # /def
@@ -77,8 +77,8 @@ def black_hole(M: array_like) -> array_like:
 
 def atomic_density(M: array_like) -> array_like:
     """Atomic Density."""  # TODO document
-    volume = 4. / 3. * PI * 1e0
-    out = PI * np.power(M / volume, 2.0 / 3.)
+    volume = 4.0 / 3.0 * PI * 1e0
+    out = PI * np.power(M / volume, 2.0 / 3.0)
     return out
 
 
