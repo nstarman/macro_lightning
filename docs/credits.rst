@@ -2,7 +2,7 @@
 Authors and Credits
 *******************
 
-Main authors:
+Main package authors:
 
 Nathaniel Starkman (`@nstarman <https://github.com/nstarman>`_)
 Jagjit Sidhu (`@jxs1325 <https://github.com/jxs1325>`_)
@@ -24,8 +24,8 @@ All contributors (alphabetical last name):
 Credits
 =======
 
-* Astropy: package template
-* Nathaniel Starkman: `utilipy` package was also used as a template
+* Nathaniel Starkman: `project_template <https://github.com/nstarman/project_template>`_
+* Astropy: `package template <https://github.com/astropy/package-template>`_
   
 
 .. |Contributors| image:: https://img.shields.io/github/contributors/nstarman/macro_lightning?style=flat

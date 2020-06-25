@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""Miscellaneous Functions, TO SORT."""
+"""Physics Functions."""
 
 
 __all__ = [

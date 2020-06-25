@@ -17,17 +17,17 @@ __author__ = [
 ]
 __copyright__ = "Copyright 2020, "
 __license__ = "BSD-3"
-# __version__ = "0.0.0"
 __maintainer__ = "Nathaniel Starkman"
-# __email__ = ""
-# __status__ = "Production"
 
 
 __all__ = [
     # modules
     "data",
     "utils",
-    "misc",
+    "physics",
+    "plot",
+    # functions
+    "constraints_plot"
 ]
 
 
@@ -41,7 +41,9 @@ from ._astropy_init import __version__  # noqa
 
 # PROJECT-SPECIFIC
 
-from . import data, utils, misc
+from . import data, utils, physics, plot
+
+from .plot import constraints_plot
 
 
 ##############################################################################

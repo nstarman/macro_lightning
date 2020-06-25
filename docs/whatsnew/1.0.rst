@@ -9,12 +9,12 @@ Bug fixes (in X releases) are annotated with `@X`
 Overview
 ========
 
-Using the template from, which is a forked from the Astropy-affiliate template.
+Using the template from `@nstarman <https://github.com/nstarman/project_template>`_, which is a forked from the Astropy-affiliate template.
 
 This release includes:
 
 * :ref:`whatsnew-1.0-framework`
-* :ref:`whatsnew-1.0-config`
+* :ref:`whatsnew-1.0-physics`
 
 
 .. _whatsnew-1.0-framework:  
@@ -22,19 +22,60 @@ This release includes:
 Framework
 =========
 
-Many of these do not have a lot of functions implemented, but the framework is in place as utilities are added.
+- :mod:`~macro_lightning.physics` for physics function
+- :mod:`~macro_lightning.plot` for plotting constraints
+- :mod:`~macro_lightning.utils` for utilities
 
-- `config` for configuration
-- `utils` for utilities
+
+.. _whatsnew-1.0-physics:
+
+Physics
+=======
+
+Physics functions for calculating a variety of previously derived constraints. None of these functions are used in the macro derivation.
+
+	- :func:`~macro_lightning.physics.CMB`
+	- :func:`~macro_lightning.physics.nuclear_density`
+	- :func:`~macro_lightning.physics.black_hole`
+	- :func:`~macro_lightning.physics.atomic_density`
+	- :func:`~macro_lightning.physics.KeplerTop`
+	- :func:`~macro_lightning.physics.LMCTop`
+
+.. _whatsnew-1.0-plot:
+
+Plot
+====
+
+Reference densities, such as atomic, nuclear, and black hole. Also a function to plot all reference densities.
+
+	- :func:`~macro_lightning.plot.plot_atomic_density_line`
+	- :func:`~macro_lightning.plot.plot_nuclear_density_line`
+	- :func:`~macro_lightning.plot.plot_black_hole_line`
+	- :func:`~macro_lightning.plot.plot_reference_densities`
+
+Plotting functions related to constraint plots.
+
+	- :func:`~macro_lightning.plot.plot_mica_constraints`
+	- :func:`~macro_lightning.plot.plot_white_dwarf_constraints`
+	- :func:`~macro_lightning.plot.plot_cmb_constraints`
+	- :func:`~macro_lightning.plot.plot_superbursts_constraints`
+	- :func:`~macro_lightning.plot.plot_humandeath_constraints`
+	- :func:`~macro_lightning.plot.plot_dfn_constraints`
+	- :func:`~macro_lightning.plot.plot_lensing_constraints`
+	- :func:`~macro_lightning.plot.plot_black_hole_constraints`
+
+And a contextmanager for quick creation of new plots.
+
+	- :func:`~macro_lightning.plot.constraint_plot`
 
 
-.. _whatsnew-1.0-config:
+.. _whatsnew-1.0-utils:
 
-Config
-======
+Utils
+=====
+Functions to work with lists of :class:`~astropy.units.Quantity`.
+These first convert the list of quantities to a quantity list, which can natively work with numpy functions.
 
-Configuration functions.
-
-All the configurations can be get / set during run-time.
-
-There is a `with` version of all the configurations, for running code with a temporarily changed configurations.
+    - :func:`~macro_lightning.utils.as_quantity`
+    - :func:`~macro_lightning.utils.qsquare`
+    - :func:`~macro_lightning.utils.qnorm`

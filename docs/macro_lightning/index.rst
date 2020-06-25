@@ -14,7 +14,8 @@ Subpackages
    :maxdepth: 1
 
    plot
-   misc
+   physics
+   data
    utils
 
 
