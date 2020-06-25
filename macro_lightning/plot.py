@@ -323,7 +323,9 @@ def plot_mica_constraints(points: T.Optional[T.Sequence] = None, label=False):
 # -------------------------------------------------------------------
 
 
-def plot_white_dwarf_constraints(points: T.Optional[T.Sequence] = None, label=False):
+def plot_white_dwarf_constraints(
+    points: T.Optional[T.Sequence] = None, label=False
+):
     r"""Plot Constraints from the existence of massive White Dwarfs.
 
     For sufficiently large cross-sections, the linear energy deposition could
@@ -431,7 +433,7 @@ def plot_superbursts_constraints(
     Other Parameters
     ----------------
     label : bool
-        whether to add the label 'superbursts'
+        whether to add the label 'superbursts(1/2)'
 
     Notes
     -----
@@ -451,9 +453,9 @@ def plot_superbursts_constraints(
     :func:`~macro_lightning.plot.constraints_plot`
 
     """
-    p1, p2 = data.load_superbursts_polygons()
-    points1 = points1 or p1
-    points2 = points2 or p1
+    _points1, _points2 = data.load_superbursts_polygons()
+    points1 = points1 or _points1
+    points2 = points2 or _points2
 
     superbursts1_poly = pyplot.Polygon(
         points1,
@@ -465,7 +467,7 @@ def plot_superbursts_constraints(
         hatch="",
         lw=1,
         zorder=5,
-        label="superbursts" if label else None,
+        label="superbursts(1/2)" if label else None,
     )
     pyplot.gca().add_patch(superbursts1_poly)
 
@@ -605,10 +607,10 @@ def plot_humandeath_constraints(
     :func:`~macro_lightning.plot.constraints_plot`
 
     """
-    humanmass, humancross, humanupper = data.load_humandeath_constraints()
-    human_mass = human_mass or humanmass
-    human_xsec = human_xsec or humanmass
-    human_upper = human_upper or humanmass
+    _human_mass, _human_xsec, _human_upper = data.load_humandeath_constraints()
+    human_mass = human_mass or _human_mass
+    human_xsec = human_xsec or _human_xsec
+    human_upper = human_upper or _human_upper
 
     human_fill = pyplot.fill_between(
         human_mass,
@@ -619,7 +621,7 @@ def plot_humandeath_constraints(
         edgecolor="black",
         hatch="",
         alpha=1.0,
-        zorder=9,
+        zorder=5,
         label="death" if label else None,
     )
 
@@ -633,9 +635,9 @@ def plot_humandeath_constraints(
 
 
 def plot_dfn_constraints(
-    DFN_mass: T.Optional[T.Sequence] = None,
-    DFN_xsec: T.Optional[T.Sequence] = None,
-    DFN_upper: T.Optional[T.Sequence] = None,
+    dfn_mass: T.Optional[T.Sequence] = None,
+    dfn_xsec: T.Optional[T.Sequence] = None,
+    dfn_upper: T.Optional[T.Sequence] = None,
     label=False,
 ):
     r"""Plot Constraints from Desert Fireball Network (DFN).
@@ -652,10 +654,10 @@ def plot_dfn_constraints(
     DFNmass : ndarray, optional
         N x 1 array for a :class:`~matplotlib.pyplot.fill_between`
         if None (default) will load from :mod:`~macro_lightning.data`
-    DFN_xsec : ndarray, optional
+    dfn_xsec : ndarray, optional
         N x 1 array for a `~fill_between`
         if None (default) will load from :mod:`~macro_lightning.data`
-    DFN_upper : ndarray, optional
+    dfn_upper : ndarray, optional
         N x 1 array for a `~fill_between`
         if None (default) will load from :mod:`~macro_lightning.data`
 
@@ -678,21 +680,21 @@ def plot_dfn_constraints(
     :func:`~macro_lightning.plot.constraints_plot`
 
     """
-    DFNmass, DFNcrosssection, DFNupper = data.load_dfn_constraints()
-    DFN_mass = DFN_mass or DFNmass
-    DFN_xsec = DFN_xsec or DFNcrosssection
-    DFN_upper = DFN_upper or DFNupper
+    _dfn_mass, _dfn_xsec, _dfn_upper = data.load_dfn_constraints()
+    dfn_mass = dfn_mass or _dfn_mass
+    dfn_xsec = dfn_xsec or _dfn_xsec
+    dfn_upper = dfn_upper or _dfn_upper
 
     dfn_fill = pyplot.fill_between(
-        DFN_mass,
-        DFN_xsec,
-        DFN_upper,
+        dfn_mass,
+        dfn_xsec,
+        dfn_upper,
         where=None,
         facecolor="green",
         edgecolor="black",
         hatch="",
         alpha=1.0,
-        zorder=6,
+        zorder=5,
         label="DFN" if label else None,
     )
 
@@ -705,7 +707,9 @@ def plot_dfn_constraints(
 # -------------------------------------------------------------------
 
 
-def plot_lensing_constraints(Mmicro: T.Optional[T.Sequence] = None, label=False):
+def plot_lensing_constraints(
+    Mmicro: T.Optional[T.Sequence] = None, label=False
+):
     r"""Plot Constraints from microlensing of the LMC.
 
     Parameters
@@ -721,7 +725,7 @@ def plot_lensing_constraints(Mmicro: T.Optional[T.Sequence] = None, label=False)
     Other Parameters
     ----------------
     label : bool
-        whether to add the label "$\mu$-lense"
+        whether to add the label "$\mu$-lens"
 
     References
     ----------
@@ -752,7 +756,7 @@ def plot_lensing_constraints(Mmicro: T.Optional[T.Sequence] = None, label=False)
         hatch="/",
         alpha=1,
         zorder=2,
-        label=r"$\mu$-lense" if label else None,
+        label=r"$\mu$-lens" if label else None,
     )
 
     return micro_fill
@@ -815,7 +819,10 @@ def constraints_plot(
     sigmin: float = 1e-15,
     sigmax: float = 1e25,
     *,
-    constr_labels=False,
+    savefig: T.Optional[str] = None,
+    constr_labels: bool = False,
+    all_constrs: bool = False,
+    # individual constraints
     mica_constr: bool = False,
     CMB_constr: bool = False,
     WD_constr: bool = False,
@@ -932,34 +939,38 @@ def constraints_plot(
     .. [12] H. Niikura et al., Nature Astronomy 3, 524 (2019)
 
     """
-    fig, ax = pyplot.subplots(figsize=(6, 4))
-    ax.grid(True)
+    fig, ax = pyplot.subplots(figsize=(8, 5.5))
+    ax.grid(True, alpha=0.7)
 
     ax.set_xlabel(r"$M_{X}$ [g]", fontsize=18)
     ax.set_xlim([m_arr.min(), m_arr.max()])
+    for tick in ax.xaxis.get_major_ticks():
+        tick.label.set_fontsize(14)
 
     ax.set_ylim(sigmin, sigmax)  # min/max of nuclear_density(M1)
     ax.set_ylabel(r"$\sigma_{X}$ [cm$^{2}$]", fontsize=18)
+    for tick in ax.yaxis.get_major_ticks():
+        tick.label.set_fontsize(14)
 
     plot_reference_densities(m_arr)
 
     # previous constraints
 
-    if mica_constr:
+    if mica_constr or all_constrs:
         plot_mica_constraints(label=constr_labels)
-    if WD_constr:
+    if WD_constr or all_constrs:
         plot_white_dwarf_constraints(label=constr_labels)
-    if CMB_constr:
+    if CMB_constr or all_constrs:
         plot_cmb_constraints(m_arr, sigmax=sigmax, label=constr_labels)
-    if superbursts_constr:
+    if superbursts_constr or all_constrs:
         plot_superbursts_constraints(label=constr_labels)
-    if humandeath_constr:
+    if humandeath_constr or all_constrs:
         plot_humandeath_constraints(label=constr_labels)
-    if dfn_constr:
+    if dfn_constr or all_constrs:
         plot_dfn_constraints(label=constr_labels)
-    if lensing_constr:
+    if lensing_constr or all_constrs:
         plot_lensing_constraints(Mmicro=None, label=constr_labels)
-    if bh_constr:
+    if bh_constr or all_constrs:
         plot_black_hole_constraints(m_arr, sigmin=sigmin, label=constr_labels)
 
     try:
@@ -967,8 +978,11 @@ def constraints_plot(
 
     finally:
 
-        ax.legend(loc="upper left", shadow=True)
+        ax.legend(loc="upper left", shadow=True, fontsize=12, ncol=2)
         pyplot.tight_layout()
+
+        if savefig is not None:
+            fig.savefig(savefig)
 
 
 # /def
