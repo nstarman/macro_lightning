@@ -202,9 +202,7 @@ def plot_black_hole_line(mass: T.Sequence, label=True):
 # -------------------------------------------------------------------
 
 
-def plot_reference_densities(
-    mass: T.Sequence, label=True
-):
+def plot_reference_densities(mass: T.Sequence, label=True):
     """Plot Reference Density lines / constraints.
 
     - atomic density line
@@ -263,7 +261,8 @@ def plot_mica_constraints(points: T.Optional[T.Sequence] = None, label=False):
     ----------
     points : ndarray, optional
         N x 2 array for a `~matplotlib.Polygon`
-        if None (default) will load from :mod:`~macro_lightning.data`
+        if None (default) will load from
+        :func:`~macro_lightning.data.load_mica_constraints`
 
     Returns
     -------
@@ -299,7 +298,7 @@ def plot_mica_constraints(points: T.Optional[T.Sequence] = None, label=False):
 
     """
     if points is None:
-        points = data.load_mica_constraint()
+        points = data.load_mica_constraints()
 
     mica_poly = pyplot.Polygon(
         points,
@@ -376,7 +375,7 @@ def plot_white_dwarf_constraints(
 
     """
     if points is None:
-        points = data.WD  # TODO as function
+        points = data.load_whitedwarf_constraints()
 
     wd_poly = pyplot.Polygon(
         points,
@@ -419,10 +418,12 @@ def plot_superbursts_constraints(
     ----------
     points1 : ndarray, optional
         N x 2 array for a `~matplotlib.Polygon`
-        if None (default) will load from :mod:`~macro_lightning.data`
+        if None (default) will load from
+        :func:`~macro_lightning.data.load_superbursts_polygons`
     points2 : ndarray, optional
         N x 2 array for a `~matplotlib.Polygon`
-        if None (default) will load from :mod:`~macro_lightning.data`
+        if None (default) will load from
+        :func:`~macro_lightning.data.load_superbursts_polygons`
 
     Returns
     -------
@@ -452,8 +453,9 @@ def plot_superbursts_constraints(
     :func:`~macro_lightning.plot.constraints_plot`
 
     """
-    if points1 is None:
-        points1 = data.load_superbursts_polygon()
+    p1, p2 = data.load_superbursts_polygons()
+    points1 = points1 or p1
+    points2 = points2 or p1
 
     superbursts1_poly = pyplot.Polygon(
         points1,
@@ -468,9 +470,6 @@ def plot_superbursts_constraints(
         label="superbursts" if label else None,
     )
     pyplot.gca().add_patch(superbursts1_poly)
-
-    if points2 is None:
-        points2 = data.load_superbursts1_polygon()
 
     superbursts2_poly = pyplot.Polygon(
         points2,
@@ -578,13 +577,16 @@ def plot_humandeath_constraints(
     ----------
     human_mass : ndarray, optional
         N x 1 array for a :class:`~matplotlib.pyplot.fill_between`
-        if None (default) will load from :mod:`~macro_lightning.data`
+        if None (default) will load from
+        :func:`~macro_lightning.data.load_humandeath_constraints`
     human_xsec : ndarray, optional
         N x 1 array for a `~fill_between`
-        if None (default) will load from :mod:`~macro_lightning.data`
+        if None (default) will load from
+        :func:`~macro_lightning.data.load_humandeath_constraints`
     human_upper : ndarray, optional
         N x 1 array for a `~fill_between`
-        if None (default) will load from :mod:`~macro_lightning.data`
+        if None (default) will load from
+        :func:`~macro_lightning.data.load_humandeath_constraints`
 
     Returns
     -------
@@ -605,12 +607,10 @@ def plot_humandeath_constraints(
     :func:`~macro_lightning.plot.constraints_plot`
 
     """
-    if human_mass is None:
-        human_mass = data.humanmass
-    if human_xsec is None:
-        human_xsec = data.humancross
-    if human_upper is None:
-        human_upper = data.humanupper
+    humanmass, humancross, humanupper = data.load_humandeath_constraints()
+    human_mass = human_mass or humanmass
+    human_xsec = human_xsec or humanmass
+    human_upper = human_upper or humanmass
 
     human_fill = pyplot.fill_between(
         human_mass,
@@ -680,12 +680,10 @@ def plot_dfn_constraints(
     :func:`~macro_lightning.plot.constraints_plot`
 
     """
-    if DFN_mass is None:
-        DFN_mass = data.DFNmass
-    if DFN_xsec is None:
-        DFN_xsec = data.DFNcrosssection
-    if DFN_upper is None:
-        DFN_upper = data.DFNupper
+    DFNmass, DFNcrosssection, DFNupper = data.load_dfn_constraints()
+    DFN_mass = DFN_mass or DFNmass
+    DFN_xsec = DFN_xsec or DFNcrosssection
+    DFN_upper = DFN_upper or DFNupper
 
     dfn_fill = pyplot.fill_between(
         DFN_mass,
@@ -958,7 +956,7 @@ def constraints_plot(
 
     finally:
 
-        ax.legend(loc="upper left", shadow=True, zorder=100)
+        ax.legend(loc="upper left", shadow=True)
         pyplot.tight_layout()
 
 

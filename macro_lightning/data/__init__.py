@@ -4,14 +4,13 @@
 """Polygons."""
 
 
-# __all__ = [
-#     # modules
-#     "",
-#     # functions
-#     "",
-#     # other
-#     "",
-# ]
+__all__ = [
+    # functions
+    "load_mica_constraints",
+    "load_superbursts_polygons",
+    "load_humandeath_constraints",
+    "load_whitedwarf_constraints",
+]
 
 
 ##############################################################################
@@ -20,11 +19,13 @@
 # BUILT IN
 
 import pathlib
+import typing as T
 
 
 # THIRD PARTY
 
 import numpy as np
+from astropy.table import Table
 
 
 # PROJECT-SPECIFIC
@@ -41,20 +42,39 @@ _data_dir = pathlib.Path(__file__).parent
 ##############################################################################
 
 
-def load_mica_constraint():
-    """Superbursts Polygon Vertices.
+def load_mica_constraints() -> T.Sequence:
+    r"""Mica Polygon Vertices.
+
+    A longstanding constraint comes from examination of a slab of
+    ancient mica for tracks that would have been left by the passage of
+    a macro moving at the typical speed of dark matter in the Galaxy.
+    This was used to rule out macros of :math:`M_x \leq 55\,` g for a wide
+    range of cross sections [1]_, [2]_, [3]_
 
     Returns
     -------
-    array
-        Nx2 array
+    points : :class:`numpy.ndarray`
+        N x 2 array for a :class:`~matplotlib.patches.Polygon`
+
+    References
+    ----------
+    .. [1] Price, P. (1988). Limits on Contribution of Cosmic Nuclearites
+        to Galactic Dark MatterPhysical Review D, 38, 3813-3814.
+    .. [2] De Rujula, A., & Glashow, S. (1984).
+        Nuclearites: A Novel Form of Cosmic RadiationNature, 312, 734-737.
+    .. [3] David M. Jacobs, Glenn D. Starkman, & Bryan W. Lynn (2014).
+        Macro Dark MatterMNRAS.
+
+    See Also
+    --------
+    :func:`~macro_lightning.plot.plot_mica_constraints`
 
     """
-    data = np.loadtxt(
-        _data_dir.joinpath("mica_constraint.txt"), delimiter=",", skiprows=1
+    points = np.loadtxt(
+        _data_dir.joinpath("mica_polygon.txt"), delimiter=",", skiprows=1
     )
 
-    return data
+    return points
 
 
 # /def
@@ -62,18 +82,38 @@ def load_mica_constraint():
 # -------------------------------------------------------------------
 
 
-def load_superbursts_polygon():
+def load_superbursts_polygons() -> T.Tuple[T.Sequence, T.Sequence]:
     """Superbursts Polygon Vertices.
+
+    For sufficiently large cross-sections, the linear energy deposition could
+    produce observable signals if a macro were to pass through compact objects
+    such as neutron stars in the form of thermonuclear runaway, leading to a
+    superburst. New constraints are inferred from the low mass X-ray
+    binary 4U 1820-30, in which more than a decade passed between successive
+    superbursts [1]_.
 
     Returns
     -------
-    array
-        Nx2 array
+    superbursts1_points : :class:`~numpy.ndarray`
+        N x 2 array for a :class:`~matplotlib.patches.Polygon`
+    superbursts2_points : array
+        N x 2 array for a `~matplotlib.patches.Polygon`
+
+    References
+    ----------
+    .. [1] J. S. Sidhu and G. D. Starkman, Physical Review D 101 (2020),
+        0.1103/physrevd.101.083503.
+
+    See Also
+    --------
+    :func:`~macro_lightning.plot.plot_superbursts_constraints`
 
     """
-    data = np.loadtxt(_data_dir.joinpath("superbursts_polygon.txt"))
+    points1 = np.loadtxt(_data_dir.joinpath("superbursts1_polygon.txt"))
 
-    return data
+    points2 = np.loadtxt(_data_dir.joinpath("superbursts2_polygon.txt"))
+
+    return points1, points2
 
 
 # /def
@@ -82,18 +122,45 @@ def load_superbursts_polygon():
 # -------------------------------------------------------------------
 
 
-def load_superbursts1_polygon():
-    """Superbursts Polygon Vertices.
+def load_humandeath_constraints() -> T.Tuple[
+    T.Sequence, T.Sequence, T.Sequence
+]:
+    r"""Constraint data from dark matter caused human deaths.
+
+    Macroscopic dark matter (macros) refers to a class of dark matter
+    candidates that scatter elastically off of ordinary matter with a large
+    geometric cross-section. A wide range of macro masses :math:`M_X` and
+    cross-sections :math:`\sigma_X` remain unprobed. Over a wide region within
+    the unexplored parameter space, collisions of a macro with a human body
+    would result in serious injury or death. The absence of such unexplained
+    impacts with a well-monitored subset of the human population to exclude a
+    region bounded by :math:`\sigma_X > 10^{−8} − 10^{−7}` cm2 and :math:`M_X
+    < 50` kg [1].
 
     Returns
     -------
-    array
-        Nx2 array
+    mass : ndarray, optional
+        N x 1 array for :class:`~matplotlib.pyplot.fill_between`
+    xsec : ndarray, optional
+        N x 1 array for `~fill_between` 2nd argument
+    upper : ndarray, optional
+        N x 1 array for a `~fill_between` 3rd argument
+
+    References
+    ----------
+    .. [1] J. S. Sidhu and G. D. Starkman, Physical Review D 101 (2020),
+        0.1103/physrevd.101.083503.
+
+    See Also
+    --------
+    :func:`~macro_lightning.plot.plot_humandeath_constraints`
 
     """
-    data = np.loadtxt(_data_dir.joinpath("superbursts1_polygon.txt"))
+    data = Table.read(
+        _data_dir.joinpath("humandeath_constraints.ecsv"), format="ascii.ecsv"
+    )
 
-    return data
+    return data["mass"], data["cross-section"], data["upper-lim"]
 
 
 # /def
@@ -101,375 +168,124 @@ def load_superbursts1_polygon():
 # -------------------------------------------------------------------
 
 
-humanmass = np.array(
-    [10.0, 45.0, 250.0, 750.0, 2500.0, 3500.0, 4500.0, 6500.0, 8500.0, 25000.0]
-)
+def load_dfn_constraints() -> T.Tuple[
+    T.Sequence, T.Sequence, T.Sequence
+]:
+    r"""Constraint data from Desert Fireball Network (DFN).
 
-humancross = np.array(
-    [
-        2.2797882338430928e-08,
-        2.641074350659222e-08,
-        4.095770363426228e-08,
-        4.981632244944769e-08,
-        6.003594472119144e-08,
-        6.99731149335171e-08,
-        8.000893597859187e-08,
-        8.999930107171393e-08,
-        1.0000005139954054e-07,
-        2.0000000022779574e-07,
-    ]
-)
+    Constraints for low mass macros from the null observation of bright
+    meteors formed by a passing macro, across two extensive networks of
+    cameras built originally to observe meteorites. The parameter space that
+    could be probed with planned upgrades to the existing array of cameras in
+    one of these networks still currently in use, the Desert Fireball Network
+    in Australia, is estimated [1]_.
 
-humanupper = np.array(
-    [
-        0.001,
-        0.0045000000000000005,
-        0.025,
-        0.075,
-        0.25,
-        0.35000000000000003,
-        0.45,
-        0.65,
-        0.8500000000000001,
-        2.5,
-    ]
-)
+    Returns
+    -------
+    mass : ndarray, optional
+        N x 1 array for :class:`~matplotlib.pyplot.fill_between`
+    xsec : ndarray, optional
+        N x 1 array for `~fill_between` 2nd argument
+    upper : ndarray, optional
+        N x 1 array for a `~fill_between` 3rd argument
 
-DFNmass = np.array(
-    [
-        10.0,
-        15.0,
-        35.0,
-        55.0,
-        85.0,
-        250.0,
-        350.0,
-        450.0,
-        750.0,
-        1500.0,
-        2500.0,
-        4500.0,
-        7500.0,
-        15000.0,
-        25000.0,
-        35000.0,
-        45000.0,
-        55000.0,
-        65000.0,
-        75000.0,
-        85000.0,
-        95000.0,
-        150000.0,
-        250000.0,
-        350000.0,
-        450000.0,
-        550000.0,
-        650000.0,
-        750000.0,
-        950000.0,
-        1500000.0,
-        2500000.0,
-        3500000.0,
-    ]
-)
+    References
+    ----------
+    .. [1] J. S. Sidhu and G. Starkman, Physical Review D 100 (2019),
+        10.1103/physrevd.100.123008.
 
-DFNcrosssection = np.array(
-    [
-        2.3874371492147634e-05,
-        2.4005325702500626e-05,
-        2.452916354706379e-05,
-        2.5053034964667313e-05,
-        2.583890494721901e-05,
-        3.016253197545943e-05,
-        3.278401046566791e-05,
-        3.5406311534770426e-05,
-        4.327809731097962e-05,
-        6.298880989546023e-05,
-        8.933608879120704e-05,
-        0.00014223892728621522,
-        0.0002220398735851431,
-        0.00042313135215750984,
-        0.0006923396911683882,
-        0.000959644506191673,
-        0.0012223577169250324,
-        0.0014785047823227349,
-        0.0017267463621922293,
-        0.001966304757957086,
-        0.0021968949751053155,
-        0.0024186602520124747,
-        0.004017388998962384,
-        0.0066285717721749,
-        0.010111304755876725,
-        0.01443477906133719,
-        0.017936251404948786,
-        0.024652463738927754,
-        0.030342043456768244,
-        0.04018863548214875,
-        0.08339862768850814,
-        0.27707900473340032,
-        0.8998,
-    ]
-)
+    See Also
+    --------
+    :func:`~macro_lightning.plot.plot_dfn_constraints`
 
-DFNupper = np.array(
-    [
-        0.001,
-        0.0015,
-        0.0035,
-        0.0055000000000000005,
-        0.0085,
-        0.025,
-        0.035,
-        0.045000000000000005,
-        0.075,
-        0.15,
-        0.25,
-        0.45,
-        0.75,
-        1.5,
-        2.5,
-        3.5,
-        4.5,
-        5.5,
-        6.5,
-        7.5,
-        8.5,
-        9.5,
-        15.0,
-        25.0,
-        35.0,
-        45.0,
-        55.0,
-        65.0,
-        75.0,
-        95.0,
-        150.0,
-        250.0,
-        350.0,
-    ]
-)
+    """
+    data = Table.read(
+        _data_dir.joinpath("dfn_constraints.ecsv"), format="ascii.ecsv"
+    )
 
-DFNfuturemass = np.array(
-    [
-        10.0,
-        15.0,
-        25.0,
-        35.0,
-        45.0,
-        55.0,
-        65.0,
-        75.0,
-        85.0,
-        95.0,
-        150.0,
-        250.0,
-        350.0,
-        450.0,
-        550.0,
-        650.0,
-        750.0,
-        850.0,
-        950.0,
-        1500.0,
-        2500.0,
-        3500.0,
-        4500.0,
-        5500.0,
-        6500.0,
-        7500.0,
-        8500.0,
-        9500.0,
-        15000.0,
-        25000.0,
-        35000.0,
-        45000.0,
-        55000.0,
-        65000.0,
-        75000.0,
-        85000.0,
-        95000.0,
-        150000.0,
-        250000.0,
-        350000.0,
-        450000.0,
-        550000.0,
-        650000.0,
-        750000.0,
-        850000.0,
-        950000.0,
-        1500000.0,
-        2500000.0,
-        3500000.0,
-        4500000.0,
-        5500000.0,
-        6500000.0,
-        15000000.0,
-        25000000.0,
-        35000000.0,
-        45000000.0,
-        55000000.0,
-        65000000.0,
-        75000000.0,
-        85000000.0,
-        95000000.0,
-        150000000.0,
-        250000000.0,
-        350000000.0,
-    ]
-)
+    return data["mass"], data["cross-section"], data["upper-lim"]
 
-DFNfuturecrosssection = np.array(
-    [
-        1.3487805752330734e-05,
-        1.3490411323956288e-05,
-        1.3495622459251637e-05,
-        1.3500833583939326e-05,
-        1.3506044698019373e-05,
-        1.3511255801491798e-05,
-        1.3516466894356612e-05,
-        1.352167797661384e-05,
-        1.3526889048263493e-05,
-        1.3532100109305594e-05,
-        1.3560760755427918e-05,
-        1.3612870199030467e-05,
-        1.3664978581906954e-05,
-        1.3717085904075151e-05,
-        1.3769192165552822e-05,
-        1.3821297366357738e-05,
-        1.387340150650767e-05,
-        1.3925504586020382e-05,
-        1.397760660491364e-05,
-        1.4264148751047908e-05,
-        1.4785052284300316e-05,
-        1.530584978492245e-05,
-        1.5826541270678615e-05,
-        1.6347126759331396e-05,
-        1.686760626864166e-05,
-        1.738797981636853e-05,
-        1.790824742026943e-05,
-        1.842840909810003e-05,
-        2.1287405690955308e-05,
-        2.647738304691899e-05,
-        3.165679706642407e-05,
-        3.6825665467243756e-05,
-        4.198400594993485e-05,
-        4.7131836197848506e-05,
-        5.226917387714075e-05,
-        5.73960366367832e-05,
-        6.251244210857367e-05,
-        9.046653447510772e-05,
-        0.00014049259435034315,
-        0.00018950175688938655,
-        0.0002375112788786503,
-        0.00028453824827408747,
-        0.0003305995852512938,
-        0.00037571204325165367,
-        0.0004198922100245378,
-        0.0004631565086655616,
-        0.0006854574658334345,
-        0.0010883328437537258,
-        0.0015043116911519027,
-        0.0019264612850082796,
-        0.0022064721485460551,
-        0.0027547493471044337,
-        0.005566600243463911,
-        0.008503050354267117,
-        0.012350753052418377,
-        0.015813365178266627,
-        0.020064762939247888,
-        0.02566455916438129,
-        0.029637431241827306,
-        0.034979545658105746,
-        0.04348344695928441,
-        0.09839915849569625,
-        0.2770789831527395,
-        0.899873020891846,
-    ]
-)
 
-DFNfutureupper = np.array(
-    [
-        0.001,
-        0.0015,
-        0.0025,
-        0.0035,
-        0.0045000000000000005,
-        0.0055000000000000005,
-        0.006500000000000001,
-        0.007500000000000001,
-        0.0085,
-        0.0095,
-        0.015000000000000001,
-        0.025,
-        0.035,
-        0.045000000000000005,
-        0.055,
-        0.065,
-        0.075,
-        0.085,
-        0.095,
-        0.15,
-        0.25,
-        0.35000000000000003,
-        0.45,
-        0.55,
-        0.65,
-        0.75,
-        0.8500000000000001,
-        0.9500000000000001,
-        1.5,
-        2.5,
-        3.5,
-        4.5,
-        5.5,
-        6.5,
-        7.5,
-        8.5,
-        9.5,
-        15.0,
-        25.0,
-        35.0,
-        45.0,
-        55.0,
-        65.0,
-        75.0,
-        85.0,
-        95.0,
-        150.0,
-        250.0,
-        350.0,
-        450.0,
-        550.0,
-        650.0,
-        1500.0,
-        2500.0,
-        3500.0,
-        4500.0,
-        5500.0,
-        6500.0,
-        7500.0,
-        8500.0,
-        9500.0,
-        15000.0,
-        25000.0,
-        35000.0,
-    ]
-)
+# /def
 
-WD = np.array(
-    [
-        [8 * 10 ** 10, 8 * 10 ** -8],
-        [7 * 10 ** 14, 7 * 10 ** -3],
-        [1 * 10 ** 18, 140],
-        [2.0 * 10 ** 20, 54000],
-        [4.0 * 10 ** 21, 10 ** 6],
-        [4.8 * 10 ** 22, 1.2 * 10 ** 7],
-        [4.8 * 10 ** 22, 140],
-        [7 * 10 ** 21, 7 * 10 ** -3],
-        [8 * 10 ** 20, 8 * 10 ** -8],
-        [8.01 * 10 ** 10, 8 * 10 ** -8],
-    ]
-)
+# -------------------------------------------------------------------
+
+
+def load_dfn_future_constraints() -> T.Tuple[
+    T.Sequence, T.Sequence, T.Sequence
+]:
+    r"""Constraint data from Desert Fireball Network (DFN).
+
+    Constraints for low mass macros from the null observation of bright
+    meteors formed by a passing macro, across two extensive networks of
+    cameras built originally to observe meteorites. The parameter space that
+    could be probed with planned upgrades to the existing array of cameras in
+    one of these networks still currently in use, the Desert Fireball Network
+    in Australia, is estimated [1]_.
+
+    Returns
+    -------
+    mass : ndarray, optional
+        N x 1 array for :class:`~matplotlib.pyplot.fill_between`
+    xsec : ndarray, optional
+        N x 1 array for `~fill_between` 2nd argument
+    upper : ndarray, optional
+        N x 1 array for a `~fill_between` 3rd argument
+
+    References
+    ----------
+    .. [1] J. S. Sidhu and G. Starkman, Physical Review D 100 (2019),
+        10.1103/physrevd.100.123008.
+
+    """
+    data = Table.read(
+        _data_dir.joinpath("dfn_future_constraints.ecsv"), format="ascii.ecsv"
+    )
+
+    return data["mass"], data["cross-section"], data["upper-lim"]
+
+
+# /def
+
+# -------------------------------------------------------------------
+
+
+def load_whitedwarf_constraints() -> T.Sequence:
+    r"""Constraint data from the existence of massive White Dwarfs.
+
+    For sufficiently large cross-sections, the linear energy deposition could
+    produce observable signals if a macro were to pass through compact objects
+    such as white dwarfs in the form of thermonuclear runaway leading to a
+    type IA supernova. These are weaker than previously inferred [2]_ in
+    important respects because of more careful treatment of the passage of a
+    macro through the white dwarf and greater conservatism regarding the size
+    of the region that must be heated to initiate runaway. On the other hand,
+    more stringent constraints are placed on macros at low cross-section,
+    using new data from the Montreal White Dwarf Database [1]_.
+
+    Returns
+    -------
+    points : :class:`numpy.ndarray`
+        N x 2 array for a :class:`~matplotlib.patches.Polygon`
+
+    References
+    ----------
+    .. [1] J. S. Sidhu and G. D. Starkman, Physical Review D 101 (2020),
+        0.1103/physrevd.101.083503.
+    .. [2] P. Graham, R. Janish, V. Narayan, S. Rajendran, and P. Riggins,
+       Physical Review D 98, 115027 (2018).
+
+    See Also
+    --------
+    :func:`~macro_lightning.plot.plot_white_dwarf_constraints`
+
+    """
+    points = np.loadtxt(_data_dir.joinpath("whitedwarf_polygon.txt"))
+
+    return points
+
+
+# /def
 
 
 ##############################################################################
