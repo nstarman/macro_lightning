@@ -13,9 +13,9 @@ Examples in these documents are frozen in time to respect the status of the API 
    1.0.rst
 
 
-.. |Milestones| image:: https://img.shields.io/github/milestones/open/cwru-pat/macro_lightning?style=flat
+.. |Milestones| image:: https://img.shields.io/github/milestones/open/nstarman/macro_lightning?style=flat
    :alt: GitHub milestones
-.. |Open Issues| image:: https://img.shields.io/github/issues-raw/cwru-pat/macro_lightning?style=flat
+.. |Open Issues| image:: https://img.shields.io/github/issues-raw/nstarman/macro_lightning?style=flat
    :alt: GitHub issues
-.. |Last GitHub Release| image:: https://img.shields.io/github/release-date/cwru-pat/macro_lightning?style=flat
+.. |Last GitHub Release| image:: https://img.shields.io/github/release-date/nstarman/macro_lightning?style=flat
    :alt: GitHub Release Date
