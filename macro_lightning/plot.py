@@ -73,7 +73,7 @@ def plot_atomic_density_line(mass: T.Sequence, label=True):
     Other Parameters
     ----------------
     label : bool
-        Whether to add the label r"$\rho_{atomic}$"
+        Whether to add the label :math:`\rho_{atomic}`
 
     Notes
     -----
@@ -122,7 +122,7 @@ def plot_nuclear_density_line(mass: T.Sequence, label=True):
     Other Parameters
     ----------------
     label : bool
-        whether to add the label r"$\rho_{nuclear}$"
+        whether to add the label :math:`\rho_{nuclear}`
 
     Notes
     -----
@@ -170,7 +170,7 @@ def plot_black_hole_line(mass: T.Sequence, label=True):
     Other Parameters
     ----------------
     label : bool
-        whether to add the label r"$\rho_{BH}$"
+        whether to add the label :math:`\rho_{BH}`
 
     Notes
     -----
