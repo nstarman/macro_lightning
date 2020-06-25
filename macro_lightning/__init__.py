@@ -27,7 +27,7 @@ __all__ = [
     "physics",
     "plot",
     # functions
-    "constraints_plot"
+    "constraints_plot",
 ]
 
 

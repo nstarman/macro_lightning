@@ -122,9 +122,7 @@ def load_superbursts_polygons() -> T.Tuple[T.Sequence, T.Sequence]:
 # -------------------------------------------------------------------
 
 
-def load_humandeath_constraints() -> T.Tuple[
-    T.Sequence, T.Sequence, T.Sequence
-]:
+def load_humandeath_constraints() -> T.Tuple[T.Sequence, T.Sequence, T.Sequence]:
     r"""Constraint data from dark matter caused human deaths.
 
     Macroscopic dark matter (macros) refers to a class of dark matter
@@ -168,9 +166,7 @@ def load_humandeath_constraints() -> T.Tuple[
 # -------------------------------------------------------------------
 
 
-def load_dfn_constraints() -> T.Tuple[
-    T.Sequence, T.Sequence, T.Sequence
-]:
+def load_dfn_constraints() -> T.Tuple[T.Sequence, T.Sequence, T.Sequence]:
     r"""Constraint data from Desert Fireball Network (DFN).
 
     Constraints for low mass macros from the null observation of bright
@@ -199,9 +195,7 @@ def load_dfn_constraints() -> T.Tuple[
     :func:`~macro_lightning.plot.plot_dfn_constraints`
 
     """
-    data = Table.read(
-        _data_dir.joinpath("dfn_constraints.ecsv"), format="ascii.ecsv"
-    )
+    data = Table.read(_data_dir.joinpath("dfn_constraints.ecsv"), format="ascii.ecsv")
 
     return data["mass"], data["cross-section"], data["upper-lim"]
 
@@ -211,9 +205,7 @@ def load_dfn_constraints() -> T.Tuple[
 # -------------------------------------------------------------------
 
 
-def load_dfn_future_constraints() -> T.Tuple[
-    T.Sequence, T.Sequence, T.Sequence
-]:
+def load_dfn_future_constraints() -> T.Tuple[T.Sequence, T.Sequence, T.Sequence]:
     r"""Constraint data from Desert Fireball Network (DFN).
 
     Constraints for low mass macros from the null observation of bright

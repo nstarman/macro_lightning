@@ -323,9 +323,7 @@ def plot_mica_constraints(points: T.Optional[T.Sequence] = None, label=False):
 # -------------------------------------------------------------------
 
 
-def plot_white_dwarf_constraints(
-    points: T.Optional[T.Sequence] = None, label=False
-):
+def plot_white_dwarf_constraints(points: T.Optional[T.Sequence] = None, label=False):
     r"""Plot Constraints from the existence of massive White Dwarfs.
 
     For sufficiently large cross-sections, the linear energy deposition could
@@ -707,9 +705,7 @@ def plot_dfn_constraints(
 # -------------------------------------------------------------------
 
 
-def plot_lensing_constraints(
-    Mmicro: T.Optional[T.Sequence] = None, label=False
-):
+def plot_lensing_constraints(Mmicro: T.Optional[T.Sequence] = None, label=False):
     r"""Plot Constraints from microlensing of the LMC.
 
     Parameters
@@ -859,34 +855,49 @@ def constraints_plot(
     ----------------
     mica_constr: bool
         Whether to label the mica constraints (default False)
+
         References : [1]_, [2]_, [3]_
+
         See :func:`~macro_lightning.plot.plot_mica_constraints`
     CMB_constr: bool
         Whether to label the CMB constraints (default False).
+
         References : [5]_
+
         See :func:`~macro_lightning.plot.plot_cmb_constraints`
     WD_constr: bool
         Whether to label the White Dwarf constraints (default False).
+
         References : [4]_
+
         See :func:`~macro_lightning.plot.plot_white_dwarf_constraints`
     superbursts_constr: bool
         Whether to label the superbursts constraints (default False).
+
         References : [4]_
+
         See :func:`~macro_lightning.plot.plot_superbursts_constraints`
     humandeath_constr: bool
         Whether to label the human-death constraints (default False).
+
         References : [6]_
+
         See :func:`~macro_lightning.plot.plot_humandeath_constraints`
     dfn_constr: bool
-        Whether to label the Desert Fireball Network constraints (default False).
+        Whether to label the DFN constraints (default False).
+
         References : [7]_
+
         See :func:`~macro_lightning.plot.plot_dfn_constraints`
     lensing_constr: bool
         Whether to label the micro-lensing constraints (default False).
+
         References : [8]_, [9]_, [10]_, [11]_, [12]_
+
         See :func:`~macro_lightning.plot.plot_lensing_constraints`
     bh_constr: bool
         Whether to label the black hole constraints (default False).
+
         See :func:`~macro_lightning.plot.plot_black_hole_constraints`
 
     Examples
