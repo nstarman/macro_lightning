@@ -10,6 +10,11 @@ __all__ = [
     "atomic_density",
     "KeplerTop",
     "LMCTop",
+    "twobody_vesc",
+    "multibody_vesc",
+    "calculate_Mx",
+    "calculate_Sx",
+    "calculate_Mx_and_Sx",
 ]
 
 
@@ -28,8 +33,6 @@ import astropy.units as u
 
 import numpy as np
 
-from utilipy.utils.typing import array_like
-
 from tqdm import tqdm
 
 
@@ -43,13 +46,15 @@ from .utils import as_quantity, qnorm
 
 _KMS = u.km / u.s
 
+_sqrt2 = np.sqrt(2)
+
 
 ##############################################################################
 # CODE
 ##############################################################################
 
 
-def CMB(M):
+def CMB(M: T.Sequence) -> T.Sequence:
     """CMB."""  # TODO document
     return M * 4.5e-7
 
@@ -60,7 +65,7 @@ def CMB(M):
 # -------------------------------------------------------------------
 
 
-def nuclear_density(M: array_like) -> array_like:
+def nuclear_density(M: T.Sequence) -> T.Sequence:
     """Nuclear Density."""  # TODO document
     volume = 4.0 / 3.0 * np.pi * 3.6e14
     out = np.pi * np.power(M / volume, 2.0 / 3)
@@ -73,7 +78,7 @@ def nuclear_density(M: array_like) -> array_like:
 # -------------------------------------------------------------------
 
 
-def black_hole(M: array_like) -> array_like:
+def black_hole(M: T.Sequence) -> T.Sequence:
     """Black Holes."""  # TODO document
     return np.pi * (3e5) ** 2 * (M / (2e33)) ** 2.0
 
@@ -84,7 +89,7 @@ def black_hole(M: array_like) -> array_like:
 # -------------------------------------------------------------------
 
 
-def atomic_density(M: array_like) -> array_like:
+def atomic_density(M: T.Sequence) -> T.Sequence:
     """Atomic Density."""  # TODO document
     volume = 4.0 / 3.0 * np.pi * 1e0
     out = np.pi * np.power(M / volume, 2.0 / 3.0)
@@ -97,7 +102,7 @@ def atomic_density(M: array_like) -> array_like:
 # -------------------------------------------------------------------
 
 
-def KeplerTop(M: array_like) -> array_like:
+def KeplerTop(M: T.Sequence) -> T.Sequence:
     """Kepler Best Observation."""  # TODO document
     return 1e-6 * M
 
@@ -108,7 +113,7 @@ def KeplerTop(M: array_like) -> array_like:
 # -------------------------------------------------------------------
 
 
-def LMCTop(M: array_like) -> array_like:
+def LMCTop(M: T.Sequence) -> T.Sequence:
     """LMC Best Observation."""  # TODO document
     return 1e-4 * M
 
@@ -158,11 +163,21 @@ def _norm_v1_v2(v1: T.Sequence, v2: T.Sequence) -> T.Sequence:
 # /def
 
 
-def multibody_esc_v(
-    *vescs,
-    vo: T.Union[None, T.Sequence[u.Quantity]] = None,
-    accumulate: bool = False,
-) -> u.Quantity:
+def twobody_vesc(
+    v1, v2, vo: T.Union[None, T.Sequence] = None,
+):
+    r"""Two-body escape velocity."""
+    vo = vo or v2 / _sqrt2  # None -> circular
+
+    return np.sqrt(v1 ** 2 + (v2 - vo) ** 2)
+
+
+# /def
+
+
+def multibody_vesc(
+    *vescs, vo: T.Union[None, T.Sequence] = None, accumulate: bool = False,
+):
     r"""Multi-body escape velocity.
 
     *Note:* all the orbits are assumed circular. This might be changed
@@ -233,7 +248,7 @@ def multibody_esc_v(
         vs[1:] = vs[1:] - vo
 
     if accumulate:
-        return itertools.accumulate(vs, _norm_v1_v2)
+        return as_quantity(itertools.accumulate(vs, _norm_v1_v2))
     else:
         return functools.reduce(_norm_v1_v2, vs)
 
@@ -323,7 +338,16 @@ def calculate_Mx(vels, vvir, vesc, vcirc, vmin, Arho, m_unit=u.g):
 # -------------------------------------------------------------------
 
 
-def calculate_Sx(vels, vesc, vhold, vcirc, vmin, sigmax, sig_unit=u.cm ** 2):
+def calculate_Sx(
+    vels,
+    vesc,
+    vhold,
+    vcirc,
+    vmin,
+    sigmax,
+    sigma_factor=None,
+    sig_unit=u.cm ** 2,
+):
     """Calculate Sx.
 
     Parameters
@@ -354,7 +378,7 @@ def calculate_Sx(vels, vesc, vhold, vcirc, vmin, sigmax, sig_unit=u.cm ** 2):
     this is not a particularly efficient calculation method.
 
     """
-    sigma_factor = 1e4 * (u.m * u.cm / u.s) ** 2
+    sigma_factor = 1e4 * (u.m * u.cm / u.s) ** 2 or sigma_factor
 
     Sxs = np.zeros(len(vels) ** 3) * sig_unit
     iterator = itertools.product(vels, vels, vels)
@@ -394,6 +418,7 @@ def calculate_Mx_and_Sx(
     Arho=3 * u.g * u.s / u.m,  # A_{det}*\rho_{DM},
     *,
     sigmax=6e-8 * u.cm ** 2,
+    sigma_factor=None,
     m_unit=u.g,
     sig_unit=u.cm ** 2,
 ):
@@ -449,6 +474,7 @@ def calculate_Mx_and_Sx(
         vcirc=vcirc,
         sigmax=sigmax,
         sig_unit=sig_unit,
+        sigma_factor=sigma_factor,
     )
 
     return Mxs, Sxs, vbar, Vhold

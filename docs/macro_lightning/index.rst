@@ -15,9 +15,9 @@ Subpackages
 
    plot
    physics
+   parameters
    data
    utils
-   parameters
 
 
 Reference/API

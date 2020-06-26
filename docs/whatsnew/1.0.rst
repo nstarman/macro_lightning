@@ -15,6 +15,7 @@ This release includes:
 
 * :ref:`whatsnew-1.0-framework`
 * :ref:`whatsnew-1.0-physics`
+* :ref:`whatsnew-1.0-parameters`
 * :ref:`whatsnew-1.0-plot`
 * :ref:`whatsnew-1.0-data`
 * :ref:`whatsnew-1.0-utils`
@@ -25,7 +26,8 @@ This release includes:
 Framework
 =========
 
-- :mod:`~macro_lightning.physics` for physics function
+- :mod:`~macro_lightning.physics` for physics functions
+- :mod:`~macro_lightning.parameters` for astronomical parameters
 - :mod:`~macro_lightning.plot` for plotting constraints
 - :mod:`~macro_lightning.utils` for utilities
 
@@ -43,6 +45,17 @@ Physics functions for calculating a variety of previously derived constraints. N
 	- :func:`~macro_lightning.physics.atomic_density`
 	- :func:`~macro_lightning.physics.KeplerTop`
 	- :func:`~macro_lightning.physics.LMCTop`
+
+
+.. _whatsnew-1.0-parameters:
+
+Parameters
+==========
+
+Solar system parameters for calculating infall velocities.
+
+	- :func:`~macro_lightning.parameters.solar_system_vesc_params`
+	- :func:`~macro_lightning.parameters.vesc_sun_at_R`
 
 
 .. _whatsnew-1.0-plot:

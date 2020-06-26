@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
 
-"""Plotting Functions."""
+"""Plotting Functions.
+
+.. todo
+
+    - these would be better done in plotly
+
+"""
 
 __author__ = ["Nathaniel Starkman", "Jagjit Sidhu", "Inherited Code People"]
 __maintainer__ = "Nathaniel Starkman"
@@ -753,7 +759,7 @@ def plot_lensing_constraints(
         where=None,
         facecolor="brown",
         edgecolor="black",
-        hatch="/",
+        # hatch="/",
         alpha=1,
         zorder=2,
         label=r"$\mu$-lens" if label else None,
@@ -796,10 +802,9 @@ def plot_black_hole_constraints(m_arr: T.Sequence, sigmin: float, label=False):
         sigmin,
         black_hole(m_arr),
         where=None,
-        color="gray",
+        color="black",
         edgecolor="",
         hatch="+",
-        alpha=0.5,
         zorder=2,
         label="BH" if label else None,
     )

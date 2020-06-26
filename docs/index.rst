@@ -42,6 +42,7 @@ THough the code base is quite light it has been split into its natural component
    macro_lightning/plot
    macro_lightning/utils
    macro_lightning/physics
+   macro_lightning/parameters
 
 
 ********
