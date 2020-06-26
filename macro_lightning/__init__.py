@@ -24,10 +24,12 @@ __all__ = [
     # modules
     "data",
     "utils",
+    "parameters",
     "physics",
     "plot",
     # functions
     "constraints_plot",
+    "solar_system_vesc_params"
 ]
 
 
@@ -41,8 +43,9 @@ from ._astropy_init import __version__  # noqa
 
 # PROJECT-SPECIFIC
 
-from . import data, utils, physics, plot
+from . import data, utils, parameters, physics, plot
 
+from .parameters import solar_system_vesc_params
 from .plot import constraints_plot
 
 

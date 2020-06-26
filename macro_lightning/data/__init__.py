@@ -5,7 +5,6 @@
 
 
 __all__ = [
-    # functions
     "load_mica_constraints",
     "load_superbursts_polygons",
     "load_humandeath_constraints",
