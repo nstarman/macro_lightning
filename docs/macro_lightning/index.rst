@@ -17,6 +17,7 @@ Subpackages
    physics
    data
    utils
+   parameters
 
 
 Reference/API
