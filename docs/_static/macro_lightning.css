@@ -2,7 +2,9 @@
 
 div.topbar a.brand {
     background: none;
-    background-image: none;
+    background-image: url("./favicon.png");
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 div.topbar ul li a.homelink {

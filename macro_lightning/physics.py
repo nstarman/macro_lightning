@@ -30,6 +30,7 @@ import typing as T
 # THIRD PARTY
 
 import astropy.units as u
+from astropy.utils.decorators import format_doc
 
 import numpy as np
 
@@ -163,81 +164,123 @@ def _norm_v1_v2(v1: T.Sequence, v2: T.Sequence) -> T.Sequence:
 # /def
 
 
-def twobody_vesc(
-    v1, v2, vo: T.Union[None, T.Sequence] = None,
-):
-    r"""Two-body escape velocity."""
-    vo = vo or v2 / _sqrt2  # None -> circular
-
-    return np.sqrt(v1 ** 2 + (v2 - vo) ** 2)
-
-
-# /def
-
-
-def multibody_vesc(
-    *vescs, vo: T.Union[None, T.Sequence] = None, accumulate: bool = False,
-):
-    r"""Multi-body escape velocity.
-
-    *Note:* all the orbits are assumed circular. This might be changed
-    in the future
-
-    Parameters
-    ----------
-    *vels: Quantity
-        velocities, ordered from 1st to last body.
-
-    vo : list of Quantity or None, optional
-        The orbital velocity of object vescs[i+1] around object vescs[i].
-        if list of quantities, must match `vescs` in length
-        if None (default) then orbits are assumed circular.
-
-    Returns
-    -------
-    :class:`itertools.accumulate`
-        The compound escape velocity
-
-    Examples
-    --------
-    For a Galactic macro falling into the potential well of the Earth,
-    the minimum observed velocity
-
-        >>> v_sun_at_earth = 42.1 * u.km / u.s
-        >>> v_esc_earth = 11.186 * u.km / u.s
-        >>> multibody_esc_v(v_sun_at_earth, v_esc_earth)
-        <Quantity 42.22729171 km / s>
-
-    Notes
-    -----
-    From `Wikipedia <https://en.wikipedia.org/wiki/Escape_velocity>`_:
-
+_multibody_escape_wikipedia = r"""
     When escaping a compound system, such as a moon orbiting a planet or a
-    planet orbiting a sun, a rocket that leaves at escape velocity (ve1) for
-    the first (orbiting) body, (e.g. Earth) will not travel to an infinite
-    distance because it needs an even higher speed to escape gravity of the
-    second body (e.g. the Sun). Near the Earth, the rocket's trajectory will
-    appear parabolic, but it will still be gravitationally bound to the second
-    body and will enter an elliptical orbit around that body, with an orbital
-    speed similar to the first body.
+    planet orbiting a sun, a rocket that leaves at escape velocity
+    (:math:`ve_1`) for the first (orbiting) body, (e.g. Earth) will not travel
+    to an infinite distance because it needs an even higher speed to escape
+    gravity of the second body (e.g. the Sun). Near the Earth, the rocket's
+    trajectory will appear parabolic, but it will still be gravitationally
+    bound to the second body and will enter an elliptical orbit around that
+    body, with an orbital speed similar to the first body.
 
     To escape the gravity of the second body once it has escaped the first
-    body the rocket will need to be travelling at the escape velocity for the
-    second body (ve2) (at the orbital distance of the first body). However,
-    when the rocket escapes the first body it will still have the same orbital
-    speed around the second body that the first body has (vo). So its excess
-    velocity as it escapes the first body will need to be the difference
-    between the orbital velocity and the escape velocity. With a circular
-    orbit, escape velocity is √2 times the orbital speed. Thus the total
-    escape velocity vte when leaving one body orbiting a second and seeking to
-    escape them both is, under simplified assumptions:
+    body the rocket will need to be traveling at the escape velocity for the
+    second body (:math:`ve_2`) (at the orbital distance of the first body).
+    However, when the rocket escapes the first body it will still have the
+    same orbital speed around the second body that the first body has (vo). So
+    its excess velocity as it escapes the first body will need to be the
+    difference between the orbital velocity and the escape velocity. With a
+    circular orbit, escape velocity is sqrt(2) times the orbital speed.
+    Thus the total escape velocity vte when leaving one body orbiting a second
+    and seeking to escape them both is, under simplified assumptions:
 
     .. math::
 
         v_{te}=\sqrt{(v_{e2} - v_o)^2 + v_{e1}^2}
         = \sqrt{\left(k v_{e2}\right)^2 + v_{e1}^2}
 
-    where :math:`k=1−1/2 \sim 0.2929` for circular orbits.
+    where :math:`k=1−1/\sqrt(2) \sim 0.2929` for circular orbits.
+"""  # TODO instead indent by function
+
+
+@format_doc(None, wikipedia=_multibody_escape_wikipedia)
+def twobody_vesc(
+    ve1, ve2, vo: T.Union[None, T.Sequence] = None,
+):
+    r"""Two-body escape velocity.
+
+    Parameters
+    ----------
+    ve1, ve2: :class:`~astropy.units.Quantity`
+        Escape velocities.
+    vo : Quantity or None, optional
+        The orbital velocity of object 1 around object 2.
+
+    Returns
+    -------
+    vesc : :class:`~astropy.units.Quantity`
+        The compound escape velocity.
+
+    Examples
+    --------
+    For a Galactic macro falling into the potential well of the Earth,
+    the minimum observed velocity
+
+        >>> vesc_earth = 11.186 * u.km / u.s
+        >>> vesc_sun_at_earth = 42.1 * u.km / u.s
+        >>> twobody_vesc(vesc_earth, vesc_sun_at_earth)
+        <Quantity 16.6485836 km / s>
+
+    Notes
+    -----
+    From `Wikipedia <https://en.wikipedia.org/wiki/Escape_velocity>`_:
+
+    {wikipedia}
+
+    """
+    vo = vo or ve2 / _sqrt2  # None -> circular
+
+    return np.sqrt(ve1 ** 2 + (ve2 - vo) ** 2)
+
+
+# /def
+
+
+@format_doc(None, wikipedia=_multibody_escape_wikipedia)
+def multibody_vesc(
+    *vescs,
+    vo: T.Union[None, T.Sequence] = None,
+    accumulate: bool = False,
+):
+    """Multi-body escape velocity.
+
+    Parameters
+    ----------
+    *vescs: Quantity
+        velocities, ordered from 1st to last body.
+
+    vo : list of Quantity or None, optional
+        The orbital velocity of object `vescs`(i+1) around object `vescs`(i).
+        if list of quantities, must match `vescs` in length
+        if None (default) then orbits are assumed circular.
+
+    accumulate : bool
+        whether to return the accumulative escape velocity for each larger
+        system (True), or just the total escape velocity (False, default).
+
+    Returns
+    -------
+    :class:`~astropy.units.Quantity`
+        The compound escape velocity
+        if `accumulate` False (default) then scalar, else accumulated vector.
+
+    Examples
+    --------
+    For a Galactic macro falling into the potential well of the Earth,
+    the minimum observed velocity
+
+        >>> vesc_earth = 11.186 * u.km / u.s
+        >>> vesc_sun_at_earth = 42.1 * u.km / u.s
+        >>> vesc_gal_at_sun = 550 * u.km / u.s
+        >>> multibody_vesc(vesc_earth, vesc_sun_at_earth, vesc_gal_at_sun)
+        <Quantity 161.94929058 km / s>
+
+    Notes
+    -----
+    From `Wikipedia <https://en.wikipedia.org/wiki/Escape_velocity>`_:
+
+    {wikipedia}
 
     """
     vs: u.Quantity = as_quantity(vescs)
