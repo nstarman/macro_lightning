@@ -25,7 +25,7 @@ Further notebooks can be found in "docs/examples"
 Papers and Presentations
 ------------------------
 
-Folder contains draft of the paper (provide link to publication or arxiv preprint)
+Look in folder for paper
 
 
 CODE
