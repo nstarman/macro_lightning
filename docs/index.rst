@@ -1,42 +1,58 @@
-Constraints from Macro-Induced Lightning
-========================================
+##############################################
+Constraining Dark Matter Models with Lightning
+##############################################
 
-Welcome to ``macro_lightning``, the code-base for a paper on constraining macroscopic dark matter models with observations of lightning on Earth and Jupiter. If you are looking for the paper, the peer-reviewed journal article can be found `here <www.google.com>`_ (TODO add link) and the arxiv pre-print `here <www.google.com>`_ (TODO add link). Alternatively, the source code for the paper is included as a sub-module in the folder "papers_and_presentations/paper".
+Welcome to ``macro_lightning``, the code-base for a paper on constraining macroscopic dark matter models with observations of lightning on Earth and Jupiter. If you are looking for the paper, `click here <www.google.com>`_ (TODO add link). 
 
 Macroscopic dark matter (macros) is a broad class of alternative candidates to particle dark matter. These candidates would transfer energy to matter primarily through elastic scattering. A sufficiently large macro passing through the atmosphere would produce a straight channel of ionized plasma. If the cross-section of the macro is :math:`\sigma_x \gtrapprox 6\times10^{-9} \rm{cm}^2`, then under atmospheric conditions conducive to lightning (eg. a thunderstorm) the plasma channel would be sufficient to seed a lightning strike with a single leader.
 
 This is entirely unlike ordinary bolt lightning in which a long sequence of hundreds or thousands of few-meter-long leaders are strung together. This macro-induced lightning would be extremely straight, and thus highly distinctive. Neither wind shear nor magnetohydrodynamic instabilities would markedly spoil its straightness. The only photographically documented case of a straight lightning bolt is probably not straight enough to have been macro-induced.
 
-For any discussion or derivations, see thee paper. For code documentation, see ReadTheDocs. This is the raw code.
+For the mathematical derivation of these properties, as well as the phase-space constraints on macro models from non-observation of straight lightning on Earth and Jupiter, see the paper. This is documentation for the code used in the paper.
+
+All code and data is available on a `public repository on GitHub <https://github.com/nstarman/macro_lightning>`_, so if you have any trouble, `open an issue <https://github.com/nstarman/macro_lightning/issues>`_ there.
 
 .. container::
 
    |DOI| |PyPI| |Build Status| |Coveralls| |astropy|
 
 
-Notebooks
----------
+*************
+Documentation
+*************
 
-Folder contains Mathematica notebooks to compute event rates for macro-induced lightning, as well as the constraints in mass and cross-section, both for lightning events on Earth and on Jupiter. There is also a notebook to compute the fraction of the Maxwell distribution of DM particles with velocities high enough to produce straight lightning bolts (ie. traveling faster than a lightning leader would ordinarily propagate).
+.. toctree::
+   :maxdepth: 1
 
-Further notebooks can be found in "docs/examples"
-
-
-Papers and Presentations
-------------------------
-
-Look in folder for paper
-
-
-CODE
-----
-The code is included in the ``macro_lightning`` folder.
+   macro_lightning/index
+   documentation/installation
+   documentation/testing
+   whatsnew/1.0
 
 
-References
-----------
-Many of the sources cited in the paper are downloaded and included here.
+***********
+Subpackages
+***********
 
+THough the code base is quite light it has been split into its natural components: utility functions, plotting functions, and the physics functions.
+
+.. toctree::
+   :maxdepth: 1
+
+   macro_lightning/plot
+   macro_lightning/utils
+   macro_lightning/physics
+   macro_lightning/parameters
+
+
+********
+Examples
+********
+
+.. toctree::
+   :maxdepth: 1
+
+   examples/plotting_constraints.ipynb
 
 
 *****************
@@ -59,7 +75,7 @@ Attribution
 
 |DOI| |License|
 
-Copyright 2020 - Nathaniel Starkman, Jagjit Sidhu, Harrison Winch, Glenn Starkan, and contributors.
+Copyright 2018- Nathaniel Starkman and contributors.
 
 ``macro_lightning`` is free software made available under the BSD-3 License. For details see the `LICENSE <https://github.com/nstarman/macro_lightning/blob/master/LICENSE>`_ file.
 
@@ -73,6 +89,18 @@ If you make use of this code, please consider citing the Zenodo DOI as a softwar
      url          = {https://doi.org/10.5281/zenodo.3491011}
    }
 
+
+
+***************
+Project details
+***************
+
+.. toctree::
+   :maxdepth: 1
+
+   credits
+   whatsnew/index
+   documentation/code_quality
 
 
 .. |astropy| image:: http://img.shields.io/badge/powered%20by-AstroPy-orange.svg?style=flat
