@@ -9,6 +9,7 @@ __all__ = [
     "as_quantity",
     "qsquare",
     "qnorm",
+    "qarange",
 ]
 
 

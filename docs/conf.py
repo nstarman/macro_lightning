@@ -99,7 +99,9 @@ todo_include_todos = True
 # This does not *have* to match the package name, but typically does
 project = setup_cfg["name"]
 author = setup_cfg["author"]
-copyright = "{0}, {1}".format(datetime.datetime.now().year, setup_cfg["author"])
+copyright = "{0}, {1}".format(
+    datetime.datetime.now().year, setup_cfg["author"]
+)
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -127,13 +129,13 @@ release = package.__version__
 # Add any paths that contain custom themes here, relative to this directory.
 # To use a different custom theme, add the directory containing the theme.
 # html_theme_path = []
-html_static_path = ['_static']
+html_static_path = ["_static"]
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes. To override the custom theme, set this to the
 # name of a builtin theme or the name of a custom theme in html_theme_path.
 # html_theme = None
-html_style = 'macro_lightning.css'
+html_style = "macro_lightning.css"
 
 
 html_theme_options = {
@@ -180,7 +182,9 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [("index", project.lower(), project + u" Documentation", [author], 1)]
+man_pages = [
+    ("index", project.lower(), project + u" Documentation", [author], 1)
+]
 
 
 # -- Options for the edit_on_github extension ---------------------------------
@@ -196,7 +200,9 @@ if setup_cfg.get("edit_on_github").lower() == "true":
     edit_on_github_doc_root = "docs"
 
 # -- Resolving issue number to links in changelog -----------------------------
-github_issues_url = "https://github.com/{0}/issues/".format(setup_cfg["github_project"])
+github_issues_url = "https://github.com/{0}/issues/".format(
+    setup_cfg["github_project"]
+)
 
 # -- Turn on nitpicky mode for sphinx (to warn about references not found) ----
 #

@@ -29,7 +29,7 @@ __all__ = [
     "plot",
     # functions
     "constraints_plot",
-    "solar_system_vesc_params"
+    "solar_system_vesc_params",
 ]
 
 

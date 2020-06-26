@@ -151,15 +151,17 @@ def f_BM_bin(vx, vbin, vvir):
 # -------------------------------------------------------------------
 
 
-def _norm_v1_v2(v1, v2):
-    return np.sqrt(v1 ** 2 + v2 ** 2)
+def _norm_v1_v2(v1: T.Sequence, v2: T.Sequence) -> T.Sequence:
+    return np.sqrt(v1 ** 2.0 + v2 ** 2.0)
 
 
 # /def
 
 
 def multibody_esc_v(
-    *vescs, vo: T.Union[None, T.Sequence[u.Quantity]] = None, accumulate=False
+    *vescs,
+    vo: T.Union[None, T.Sequence[u.Quantity]] = None,
+    accumulate: bool = False,
 ) -> u.Quantity:
     r"""Multi-body escape velocity.
 
@@ -188,8 +190,8 @@ def multibody_esc_v(
 
         >>> v_sun_at_earth = 42.1 * u.km / u.s
         >>> v_esc_earth = 11.186 * u.km / u.s
-        >>> minimum_obs_v(v_sun_at_earth, v_esc_earth)
-        43.560723089 km / s
+        >>> multibody_esc_v(v_sun_at_earth, v_esc_earth)
+        <Quantity 42.22729171 km / s>
 
     Notes
     -----
@@ -223,7 +225,7 @@ def multibody_esc_v(
     where :math:`k=1−1/2 \sim 0.2929` for circular orbits.
 
     """
-    vs = as_quantity(vescs)
+    vs: u.Quantity = as_quantity(vescs)
 
     if vo is None:
         vs[1:] = vs[1:] * (1 - 1 / np.sqrt(2))

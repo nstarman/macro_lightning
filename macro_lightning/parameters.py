@@ -32,9 +32,21 @@ import numpy as np
 
 _KMS = u.km / u.s
 
-_ref_B = "Explanatory Supplement to the Astronomical Almanac. 1992. K. P. Seidelmann, Ed., p.706 (Table 15.8) and p.316 (Table 5.8.1), University Science Books, Mill Valley, California."
-_ref_C = "Seidelmann, P.K. et al. 2007. 'Report of the IAU/IAG Working Group on cartographic coordinates and rotational elements: 2006' Celestial Mech. Dyn. Astr. 98:155-180."
-_ref_D = "Archinal, B.A. et al. 2018. 'Report of the IAU/IAG Working Group on cartographic coordinates and rotational elements: 2015' Celestial Mech. Dyn. Astr. 130:22."
+_ref_B = (
+    "Explanatory Supplement to the Astronomical Almanac. "
+    "1992. K. P. Seidelmann, Ed., p.706 (Table 15.8) and p.316 "
+    "(Table 5.8.1), University Science Books, Mill Valley, California."
+)
+_ref_C = (
+    "Seidelmann, P.K. et al. 2007. 'Report of the IAU/IAG Working "
+    "Group on cartographic coordinates and rotational elements: 2006' "
+    "Celestial Mech. Dyn. Astr. 98:155-180."
+)
+_ref_D = (
+    "Archinal, B.A. et al. 2018. 'Report of the IAU/IAG Working Group "
+    "on cartographic coordinates and rotational elements: 2015' "
+    "Celestial Mech. Dyn. Astr. 130:22."
+)
 
 
 ##############################################################################
