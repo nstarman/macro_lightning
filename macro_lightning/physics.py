@@ -142,7 +142,7 @@ def f_BM_bin(vx, vbin, vvir):
 
     References
     ----------
-     J.  S.  Sidhu  and  G.  Starkman,  Physical  Review  D
+    .. [1] J.  S.  Sidhu  and  G.  Starkman,  Physical  Review  D
          100(2019), 10.1103/physrevd.100.123008.
 
     """
@@ -166,31 +166,31 @@ def _norm_v1_v2(v1: T.Sequence, v2: T.Sequence) -> T.Sequence:
 
 _multibody_escape_wikipedia = r"""
     When escaping a compound system, such as a moon orbiting a planet or a
-    planet orbiting a sun, a rocket that leaves at escape velocity
-    (:math:`ve_1`) for the first (orbiting) body, (e.g. Earth) will not travel
-    to an infinite distance because it needs an even higher speed to escape
-    gravity of the second body (e.g. the Sun). Near the Earth, the rocket's
-    trajectory will appear parabolic, but it will still be gravitationally
-    bound to the second body and will enter an elliptical orbit around that
-    body, with an orbital speed similar to the first body.
+    planet orbiting a sun, a rocket that leaves at escape velocity (ve1) for
+    the first (orbiting) body, (e.g. Earth) will not travel to an infinite
+    distance because it needs an even higher speed to escape gravity of the
+    second body (e.g. the Sun). Near the Earth, the rocket's trajectory will
+    appear parabolic, but it will still be gravitationally bound to the second
+    body and will enter an elliptical orbit around that body, with an orbital
+    speed similar to the first body.
 
     To escape the gravity of the second body once it has escaped the first
     body the rocket will need to be traveling at the escape velocity for the
-    second body (:math:`ve_2`) (at the orbital distance of the first body).
-    However, when the rocket escapes the first body it will still have the
-    same orbital speed around the second body that the first body has (vo). So
-    its excess velocity as it escapes the first body will need to be the
-    difference between the orbital velocity and the escape velocity. With a
-    circular orbit, escape velocity is sqrt(2) times the orbital speed.
-    Thus the total escape velocity vte when leaving one body orbiting a second
-    and seeking to escape them both is, under simplified assumptions:
+    second body (ve2) (at the orbital distance of the first body). However,
+    when the rocket escapes the first body it will still have the same orbital
+    speed around the second body that the first body has (vo). So its excess
+    velocity as it escapes the first body will need to be the difference
+    between the orbital velocity and the escape velocity. With a circular
+    orbit, escape velocity is sqrt(2) times the orbital speed. Thus the total
+    escape velocity vte when leaving one body orbiting a second and seeking to
+    escape them both is, under simplified assumptions:
 
     .. math::
 
         v_{te}=\sqrt{(v_{e2} - v_o)^2 + v_{e1}^2}
         = \sqrt{\left(k v_{e2}\right)^2 + v_{e1}^2}
 
-    where :math:`k=1−1/\sqrt(2) \sim 0.2929` for circular orbits.
+    where :math:`k=1−1/\sqrt{2} \sim 0.2929` for circular orbits.
 """  # TODO instead indent by function
 
 
@@ -224,9 +224,17 @@ def twobody_vesc(
 
     Notes
     -----
-    From `Wikipedia <https://en.wikipedia.org/wiki/Escape_velocity>`_:
+    From `Wikipedia <https://en.wikipedia.org/wiki/Escape_velocity>`_ [1]_:
 
     {wikipedia}
+
+    References
+    ----------
+    .. [1] https://en.wikipedia.org/wiki/Escape_velocity
+
+    See Also
+    --------
+    :func:`~macro_lightning.physics.multibody_vesc`
 
     """
     vo = vo or ve2 / _sqrt2  # None -> circular
@@ -239,9 +247,7 @@ def twobody_vesc(
 
 @format_doc(None, wikipedia=_multibody_escape_wikipedia)
 def multibody_vesc(
-    *vescs,
-    vo: T.Union[None, T.Sequence] = None,
-    accumulate: bool = False,
+    *vescs, vo: T.Union[None, T.Sequence] = None, accumulate: bool = False,
 ):
     """Multi-body escape velocity.
 
@@ -251,8 +257,8 @@ def multibody_vesc(
         velocities, ordered from 1st to last body.
 
     vo : list of Quantity or None, optional
-        The orbital velocity of object `vescs`(i+1) around object `vescs`(i).
-        if list of quantities, must match `vescs` in length
+        The orbital velocity of object vescs[i+1] around object vescs[i].
+        if list of quantities, must match vescs in length
         if None (default) then orbits are assumed circular.
 
     accumulate : bool
@@ -278,9 +284,17 @@ def multibody_vesc(
 
     Notes
     -----
-    From `Wikipedia <https://en.wikipedia.org/wiki/Escape_velocity>`_:
+    From `Wikipedia <https://en.wikipedia.org/wiki/Escape_velocity>`_ [1]_:
 
     {wikipedia}
+
+    References
+    ----------
+    .. [1] https://en.wikipedia.org/wiki/Escape_velocity
+
+    See Also
+    --------
+    :func:`~macro_lightning.physics.twobody_vesc`
 
     """
     vs: u.Quantity = as_quantity(vescs)
