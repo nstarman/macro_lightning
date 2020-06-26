@@ -118,5 +118,23 @@ def qnorm(*args, **kw):
 # -------------------------------------------------------------------
 
 
+def qarange(start, stop, step, unit=None):
+    """:func:`~numpy.arange` for Quantities."""
+    if unit is None:
+        unit = step.unit
+
+    arng = np.arange(
+        start.to_value(unit), stop.to_value(unit), step.to_value(unit)
+    )
+
+    return arng * unit
+
+
+# /def
+
+
+# -------------------------------------------------------------------
+
+
 ##############################################################################
 # END
