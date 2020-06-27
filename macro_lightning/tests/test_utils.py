@@ -144,16 +144,16 @@ def test_qarange():
     step = 1 * u.m
 
     expected = np.arange(1, 10, 1) * u.m
-    assert utils.qarange(start, stop, step) == expected
+    assert all(utils.qarange(start, stop, step) == expected)
 
     # change unit
-    expected = np.arange(1, 10, 0.01) * u.m
-    assert utils.qarange(start, stop, step, unit=u.cm) == expected
+    expected = np.arange(1, 10, 1) * 100 * u.cm
+    assert all(utils.qarange(start, stop, step, unit=u.cm) == expected)
 
     # change step
     step = 1 * u.cm
     expected = np.arange(100, 1000, 1) * u.cm
-    assert utils.qarange(start, stop, step) == expected
+    assert all(utils.qarange(start, stop, step) == expected)
 
     # raise error
     with pytest.raises(AttributeError):

@@ -80,7 +80,7 @@ def test_vesc_sun_at_R():
     assert params.vesc_sun_at_R(1 * u.AU) == params.vesc_sun_at_earth
 
     # quadruple distance = half the escape velocity
-    assert params.vesc_sun_at_R(4 * u.AU) == params.vesc_sun_at_earth / 2.0
+    assert params.vesc_sun_at_R(4 * u.AU) == 2. * params.vesc_sun_at_earth
 
     # Error test
     with pytest.raises(Exception):
