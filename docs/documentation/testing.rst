@@ -14,3 +14,19 @@ The tests are written assuming they will be run with `pytest <http://doc.pytest.
 2. By cloning the ``macro_lightning`` repository and running::
 
     tox -e test
+
+
+Reference/API
+=============
+
+The test functions.
+
+.. currentmodule:: macro_lightning.tests
+
+.. automodapi:: macro_lightning.tests.test_parameters
+
+
+.. automodapi:: macro_lightning.tests.test_plot
+
+
+.. automodapi:: macro_lightning.tests.test_utils

@@ -24,8 +24,6 @@ from astropy import units as u
 
 import numpy as np
 
-# PROJECT-SPECIFIC
-
 
 ##############################################################################
 # PARAMETERS

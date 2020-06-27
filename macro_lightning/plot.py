@@ -626,8 +626,8 @@ def plot_humandeath_constraints(
         facecolor="red",
         edgecolor="black",
         hatch="",
-        alpha=1.0,
-        zorder=5,
+        alpha=0.6,
+        zorder=4,
         label="death" if label else None,
     )
 
@@ -699,8 +699,8 @@ def plot_dfn_constraints(
         facecolor="green",
         edgecolor="black",
         hatch="",
-        alpha=1.0,
-        zorder=5,
+        alpha=0.6,
+        zorder=4,
         label="DFN" if label else None,
     )
 
@@ -803,7 +803,6 @@ def plot_black_hole_constraints(m_arr: T.Sequence, sigmin: float, label=False):
         black_hole(m_arr),
         where=None,
         color="black",
-        edgecolor="",
         hatch="+",
         zorder=2,
         label="BH" if label else None,

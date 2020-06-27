@@ -1,29 +1,30 @@
 # -*- coding: utf-8 -*-
 
-"""test utilities."""
+"""Test :mod:`~macro_lightning.utils`."""
 
 
 __all__ = [
     "test_as_quantity",
     "test_qsquare",
     "test_qnorm",
+    "test_qarange",
 ]
 
 
 ##############################################################################
 # IMPORTS
 
-# BUILT-IN
-
 # THIRD PARTY
 
 import astropy.units as u
+import numpy as np
 import pytest
 
 
 # PROJECT-SPECIFIC
 
 from .. import utils
+
 
 ##############################################################################
 # PARAMETERS
@@ -121,6 +122,41 @@ def test_qnorm():
     x = [3, 4] * u.m
     y = utils.qnorm(x)
     assert y == 5 * u.m
+
+
+# /def
+
+
+# -------------------------------------------------------------------
+
+
+def test_qarange():
+    """Test :func:`~macro_lightning.utils.qarange`.
+
+    Most tests are covered by `test_as_quantity`
+    and numpy's internal testing for :func:`~numpy.arange`
+
+    """
+    # basic test
+    start = 1 * u.m
+    stop = 10 * u.m
+    step = 1 * u.m
+
+    expected = np.arange(1, 10, 1) * u.m
+    assert all(utils.qarange(start, stop, step) == expected)
+
+    # change unit
+    expected = np.arange(1, 10, 1) * 100 * u.cm
+    assert all(utils.qarange(start, stop, step, unit=u.cm) == expected)
+
+    # change step
+    step = 1 * u.cm
+    expected = np.arange(100, 1000, 1) * u.cm
+    assert all(utils.qarange(start, stop, step) == expected)
+
+    # raise error
+    with pytest.raises(AttributeError):
+        utils.qarange(start, stop, 1)
 
 
 # /def
