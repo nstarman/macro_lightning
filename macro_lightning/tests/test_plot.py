@@ -8,12 +8,22 @@ successfully creates a plot.
 """
 
 
-# __all__ = [
-#     # functions
-#     "",
-#     # other
-#     "",
-# ]
+__all__ = [
+    "test_plot_atomic_density_line",
+    "test_plot_nuclear_density_line",
+    "test_plot_black_hole_line",
+    "test_plot_reference_densities",
+    "test_plot_mica_constraints",
+    "test_plot_white_dwarf_constraints",
+    "test_plot_cmb_constraints",
+    "test_plot_superbursts_constraints",
+    "test_plot_humandeath_constraints",
+    "test_plot_dfn_constraints",
+    "test_plot_lensing_constraints",
+    "test_plot_black_hole_constraints",
+    "test_empty_constraints_plot",
+    "test_full_constraints_plot",
+]
 
 
 ##############################################################################

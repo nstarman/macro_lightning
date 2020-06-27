@@ -376,12 +376,11 @@ def calculate_Mx(vels, vvir, vesc, vcirc, vmin, Arho, m_unit=u.g):
             vbar = vbar + vrel * maxwellian  # cumulative
 
             mx = Arho * vbar
-            # mx <<= m_unit
 
             Mxs[i] = mx
 
-            # update variable
-            Vhold = vrel
+    # update variable
+    Vhold = vrel
 
     # /for
 
@@ -396,14 +395,7 @@ def calculate_Mx(vels, vvir, vesc, vcirc, vmin, Arho, m_unit=u.g):
 
 
 def calculate_Sx(
-    vels,
-    vesc,
-    vhold,
-    vcirc,
-    vmin,
-    sigmax,
-    sigma_factor=None,
-    sig_unit=u.cm ** 2,
+    vels, vesc, vhold, vcirc, vmin, minsigma, sigma_factor, sig_unit=u.cm ** 2,
 ):
     """Calculate Sx.
 
@@ -419,7 +411,7 @@ def calculate_Sx(
         Galactocentric circular velocity
     vmin : Quantity
         infall velocity of a macro to the Earth.
-    sigmax : Quantity
+    minsigma : Quantity
 
     Returns
     -------
@@ -435,8 +427,6 @@ def calculate_Sx(
     this is not a particularly efficient calculation method.
 
     """
-    sigma_factor = 1e4 * (u.m * u.cm / u.s) ** 2 or sigma_factor
-
     Sxs = np.zeros(len(vels) ** 3) * sig_unit
     iterator = itertools.product(vels, vels, vels)
 
@@ -448,9 +438,8 @@ def calculate_Sx(
             vhold = vrel  # update vhold   # problem? never reset vhold
 
             sx = sigma_factor / vrel ** 2
-            if sx < sigmax:
-                sx = sigmax
-            # sx <<= sig_unit
+            if sx < minsigma:
+                sx = minsigma
 
             Sxs[i] = sx
     # /for
@@ -474,7 +463,7 @@ def calculate_Mx_and_Sx(
     vmin=42.1 * _KMS,
     Arho=3 * u.g * u.s / u.m,  # A_{det}*\rho_{DM},
     *,
-    sigmax=6e-8 * u.cm ** 2,
+    minsigma=6e-8 * u.cm ** 2,
     sigma_factor=None,
     m_unit=u.g,
     sig_unit=u.cm ** 2,
@@ -494,7 +483,7 @@ def calculate_Mx_and_Sx(
         Galactocentric circular velocity
     vmin : Quantity
         infall velocity of a macro to the Earth.
-    sigmax : Quantity
+    minsigma : Quantity
 
     Returns
     -------
@@ -504,7 +493,7 @@ def calculate_Mx_and_Sx(
 
     Other Parameters
     ----------------
-    sigmax : Quantity
+    minsigma : Quantity
     m_unit : :class:`~astropy.units.Unit`
     sig_unit : :class:`~astropy.units.Unit`
 
@@ -529,7 +518,7 @@ def calculate_Mx_and_Sx(
         vhold=Vhold,
         vmin=vmin,
         vcirc=vcirc,
-        sigmax=sigmax,
+        minsigma=minsigma,
         sig_unit=sig_unit,
         sigma_factor=sigma_factor,
     )

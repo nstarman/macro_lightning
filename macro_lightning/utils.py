@@ -120,7 +120,14 @@ def qnorm(*args, **kw):
 
 
 def qarange(start, stop, step, unit=None):
-    """:func:`~numpy.arange` for Quantities."""
+    """:func:`~numpy.arange` for Quantities.
+
+    Raises
+    ------
+    AttributeError
+        if start, stop, or step are not :class:`~astropy.units.Quantity`
+
+    """
     if unit is None:
         unit = step.unit
 
