@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""test utilities."""
+"""Test :mod:`~macro_lightning.utils`."""
 
 
 __all__ = [
@@ -14,8 +14,6 @@ __all__ = [
 ##############################################################################
 # IMPORTS
 
-# BUILT-IN
-
 # THIRD PARTY
 
 import astropy.units as u
@@ -26,6 +24,7 @@ import pytest
 # PROJECT-SPECIFIC
 
 from .. import utils
+
 
 ##############################################################################
 # PARAMETERS

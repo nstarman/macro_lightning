@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""tests for parameters."""
+"""Test :mod:`~macro_lightning.parameters`."""
 
 
 __all__ = [
@@ -36,7 +36,7 @@ _KMS = u.km / u.s
 
 
 def test_solar_system_vesc_params():
-    """Test Solar System Escape Velocity Parameters."""
+    """Test :class:`~macro_lightning.parameters.solar_system_vesc_params`."""
     # test set
     params.solar_system_vesc_params.set("latest")
 
@@ -75,7 +75,7 @@ def test_solar_system_vesc_params():
 
 
 def test_vesc_sun_at_R():
-    """Test Solar Escape Velocity as a function of Radius."""
+    """Test :func:`~macro_lightning.parameters.vesc_sun_at_R`."""
     # Unity test
     assert params.vesc_sun_at_R(1 * u.AU) == params.vesc_sun_at_earth
 
