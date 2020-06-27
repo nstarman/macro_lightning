@@ -56,7 +56,12 @@ _sqrt2 = np.sqrt(2)
 
 
 def CMB(M: T.Sequence) -> T.Sequence:
-    """CMB."""  # TODO document
+    r"""CMB bound from Celine Boehm paper
+
+    Paper considers dark matter elastic scattering effects on the CMB.
+    :math:`sigma_x/M_x \geq 4.5e-7` is ruled out.
+
+    """
     return M * 4.5e-7
 
 
@@ -67,7 +72,7 @@ def CMB(M: T.Sequence) -> T.Sequence:
 
 
 def nuclear_density(M: T.Sequence) -> T.Sequence:
-    """Nuclear Density."""  # TODO document
+    """Quantity sigma_x(cross-section) for a nuclear density object."""
     volume = 4.0 / 3.0 * np.pi * 3.6e14
     out = np.pi * np.power(M / volume, 2.0 / 3)
     return out
@@ -80,7 +85,7 @@ def nuclear_density(M: T.Sequence) -> T.Sequence:
 
 
 def black_hole(M: T.Sequence) -> T.Sequence:
-    """Black Holes."""  # TODO document
+    """Cross section by mass satisfying the Schwarzchild radius."""
     return np.pi * (3e5) ** 2 * (M / (2e33)) ** 2.0
 
 
@@ -91,7 +96,7 @@ def black_hole(M: T.Sequence) -> T.Sequence:
 
 
 def atomic_density(M: T.Sequence) -> T.Sequence:
-    """Atomic Density."""  # TODO document
+    """Quantity sigma_x(cross-section) for an atomic density object."""
     volume = 4.0 / 3.0 * np.pi * 1e0
     out = np.pi * np.power(M / volume, 2.0 / 3.0)
     return out
@@ -104,7 +109,7 @@ def atomic_density(M: T.Sequence) -> T.Sequence:
 
 
 def KeplerTop(M: T.Sequence) -> T.Sequence:
-    """Kepler Best Observation."""  # TODO document
+    """Microlensing bounds from Kepler."""
     return 1e-6 * M
 
 
@@ -115,7 +120,7 @@ def KeplerTop(M: T.Sequence) -> T.Sequence:
 
 
 def LMCTop(M: T.Sequence) -> T.Sequence:
-    """LMC Best Observation."""  # TODO document
+    """Microlensing bounds from observation of the LMC."""
     return 1e-4 * M
 
 
@@ -139,6 +144,9 @@ def f_BM_bin(vx, vbin, vvir):
     Returns
     -------
     Quantity
+        The fraction of macros in the distribution that have some minimum
+        velocity after performing the integral (4) in [1]_;
+        We iterate over a wide range of velocities.
 
     References
     ----------
@@ -327,6 +335,13 @@ def multibody_vesc(
 def calculate_Mx(vels, vvir, vesc, vcirc, vmin, Arho, m_unit=u.g):
     """Calculate Mx.
 
+    Mx is the array of M_x values corresponding to the minimum sigma_x values;
+    these two quantities (M_x and sigma_x) are linked through v_x. The
+    integral 4 determines vbar, and correspondingly a value for M_x. This
+    minimum value in this integral determines  the value corresponding of
+    sigma_x and the pair (sigma_x, M_x) is what is plotted in the
+    constraints/projections graph.
+
     Parameters
     ----------
     vels : Sequence
@@ -345,7 +360,13 @@ def calculate_Mx(vels, vvir, vesc, vcirc, vmin, Arho, m_unit=u.g):
     -------
     Mxs : Sequence
     vbar : Quantity
+        The value of the integral 4 as we iterate over different values of vx,
+        vy and vz.
     Vhold : Quantity
+        hold accounts for the usage of the minimum speed (not vbar; that is
+        relevant to M_x only) when determining the minimum sigma_x  for a
+        detectable signal. Vhold Starts high and then is constantly lowered as
+        we iterate over different values of vx, vy, vz.
 
     Other Parameters
     ----------------
@@ -353,7 +374,7 @@ def calculate_Mx(vels, vvir, vesc, vcirc, vmin, Arho, m_unit=u.g):
 
     Notes
     -----
-    this is not a particularly efficient calculation method.
+    this integration can be very slow.
 
     """
     vbar = 0.0 * u.km / u.s
@@ -375,6 +396,9 @@ def calculate_Mx(vels, vvir, vesc, vcirc, vmin, Arho, m_unit=u.g):
 
             vbar = vbar + vrel * maxwellian  # cumulative
 
+            # the product of the A_{det} and rho_{DM} and T, the integration
+            # time, outside the integral in equation of 4 of the bolides
+            # paper.
             mx = Arho * vbar
 
             Mxs[i] = mx
@@ -399,6 +423,8 @@ def calculate_Sx(
 ):
     """Calculate Sx.
 
+    Sx holds the minimum values of sigma_x for a detectable signal.
+
     Parameters
     ----------
     vels : Sequence
@@ -407,6 +433,10 @@ def calculate_Sx(
     vesc : Quantity
         Galactocentric escape velocity
     vhold : Quantity
+        Vhold accounts for the usage of the minimum speed (not vbar; that is
+        relevant to M_x only) when determining the minimum sigma_x  for a
+        detectable signal. Vhold Starts high and then is constantly lowered as
+        we iterate over different values of vx, vy, vz.
     vcirc : Quantity
         Galactocentric circular velocity
     vmin : Quantity
@@ -424,7 +454,7 @@ def calculate_Sx(
 
     Notes
     -----
-    this is not a particularly efficient calculation method.
+    This integration can be slow.
 
     """
     Sxs = np.zeros(len(vels) ** 3) * sig_unit
