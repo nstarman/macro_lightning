@@ -803,7 +803,6 @@ def plot_black_hole_constraints(m_arr: T.Sequence, sigmin: float, label=False):
         black_hole(m_arr),
         where=None,
         color="black",
-        edgecolor="",
         hatch="+",
         zorder=2,
         label="BH" if label else None,
